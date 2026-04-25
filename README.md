@@ -2,6 +2,8 @@
 
 A single-file HTML + JavaScript implementation of [Reversi](https://en.wikipedia.org/wiki/Reversi) with a toroidal (infinite) playing field.
 
+![Universal Reversi](screenshot.png)
+
 ## Features
 
 - **Configurable board size** — 4×4 up to 16×16 (even sizes, default 8×8)
