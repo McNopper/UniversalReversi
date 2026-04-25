@@ -27,7 +27,7 @@ body {
   padding: 24px 12px;
   gap: 16px;
 }
-h1 { font-size: 2.1rem; color: var(--accent); letter-spacing: 3px; font-weight: 900; }
+h1 { font-size: 2.1rem; color: var(--accent); letter-spacing: 3px; font-weight: 900; text-align: center; width: 100%; }
 
 /* Controls — right panel */
 #ctrl {
@@ -281,6 +281,13 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
       <label class="togwrap"><input type="checkbox" id="ai"><span class="track"></span></label>
       <span>vs AI</span>
     </div>
+    <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
+      <span>Starts</span>
+      <select id="starts" style="background:var(--bg); color:var(--text); border:1px solid #2a3a4a; border-radius:7px; padding:5px 8px; font-size:.9rem; cursor:pointer;">
+        <option value="1">⚫ Black</option>
+        <option value="2">⚪ White</option>
+      </select>
+    </div>
     <button class="btn" id="ng">Restart Game</button>
   </div>
 </div>
@@ -359,7 +366,7 @@ function init() {
   const m = size >> 1;
   board[m-1][m-1] = 2; board[m-1][m] = 1;
   board[m][m-1]   = 1; board[m][m]   = 2;
-  cur = 1; over = false; lastMove = null; lastFlips = [];
+  cur = +document.getElementById('starts').value; over = false; lastMove = null; lastFlips = [];
   viewR = 0; viewC = 0;
 }
 
@@ -514,6 +521,7 @@ document.addEventListener('keydown', e => {
 size = 8; wH = wV = true; vsAI = false;
 init();
 render();
+if (!over && vsAI && cur === 2) aiTimer = setTimeout(aiPlay, 520);
 </script>
 </body>
 </html>
