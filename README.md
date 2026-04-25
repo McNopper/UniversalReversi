@@ -12,6 +12,10 @@ A single-file HTML + JavaScript implementation of [Reversi](https://en.wikipedia
 - **Pan the view** — use ↑↓←→ or the on-screen d-pad to scroll around the infinite board
 - **Animations** — piece pop-in and flip effects
 
+## Play online
+
+🌍 **[nopper.tv/ur](https://nopper.tv/ur/)**
+
 ## How to play
 
 Open `index.html` in any modern browser — no server or dependencies required.
