@@ -368,7 +368,7 @@ function cellSize() {
   return Math.max(30, Math.min(62, Math.floor(520 / size)));
 }
 
-function render(passNote) {
+function render(passNote, noAnim) {
   const boardEl = document.getElementById('board');
   const s = cellSize();
   boardEl.style.gridTemplateColumns = `repeat(${size}, ${s}px)`;
@@ -393,8 +393,8 @@ function render(passNote) {
       if (v) {
         const pc = document.createElement('div');
         pc.className = 'pc ' + (v === 1 ? 'b' : 'w');
-        if (key === lmKey) pc.classList.add('new');
-        else if (fSet.has(key)) pc.classList.add('flip');
+        if (!noAnim && key === lmKey) pc.classList.add('new');
+        else if (!noAnim && fSet.has(key)) pc.classList.add('flip');
         pc.style.width = pc.style.height = Math.round(s * 0.8) + 'px';
         cell.appendChild(pc);
         if (key === lmKey) cell.classList.add('last-move');
@@ -439,7 +439,7 @@ function render(passNote) {
 function shiftView(dr, dc) {
   if (wV) viewR = ((viewR + dr) % size + size) % size;
   if (wH) viewC = ((viewC + dc) % size + size) % size;
-  render();
+  render(null, true);
 }
 
 /* ─── Turn logic ─── */
