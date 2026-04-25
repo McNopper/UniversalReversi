@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal Reversi</title>
+<style>
+:root {
+  --bg: #0e1a2b;
+  --panel: #162032;
+  --green-dk: #1a5c33;
+  --green: #2d8653;
+  --green-h: #45b872;
+  --accent: #5dd9c0;
+  --text: #dce8f8;
+  --shadow: rgba(0,0,0,.55);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 12px;
+  gap: 16px;
+}
+h1 { font-size: 2.1rem; color: var(--accent); letter-spacing: 3px; font-weight: 900; }
+
+/* Controls — right panel */
+#ctrl {
+  background: var(--panel);
+  border-radius: 14px;
+  padding: 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 180px;
+  align-items: stretch;
+}
+.cg { display: flex; align-items: center; gap: 8px; font-size: .93rem; }
+.cg span:first-child { flex: 1; }
+input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; margin-top: 4px; }
+#ctrl hr { border: none; border-top: 1px solid #243040; }
+
+/* Toggle switch */
+.togwrap { display: inline-flex; align-items: center; cursor: pointer; }
+.togwrap input { display: none; }
+.track {
+  width: 36px; height: 20px;
+  background: #3a3a4a;
+  border-radius: 20px;
+  position: relative;
+  transition: background .25s;
+  flex-shrink: 0;
+}
+.track::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 14px; height: 14px;
+  background: #ccc;
+  border-radius: 50%;
+  transition: transform .25s;
+}
+.togwrap input:checked + .track { background: var(--accent); }
+.togwrap input:checked + .track::after { transform: translateX(16px); }
+
+/* Button */
+.btn {
+  padding: 8px 22px;
+  background: var(--accent);
+  color: #0b1822;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: .93rem;
+  transition: filter .2s;
+}
+.btn:hover { filter: brightness(1.15); }
+
+#score { display: flex; gap: 8px; }
+.sbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0e1a2b;
+  padding: 7px 12px;
+  border-radius: 9px;
+  border: 2px solid transparent;
+  transition: border-color .3s;
+}
+.sbox.active { border-color: var(--accent); }
+.dot { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; }
+.dot.b { background: radial-gradient(circle at 36% 32%, #666, #111); box-shadow: 1px 1px 3px var(--shadow); }
+.dot.w { background: radial-gradient(circle at 36% 32%, #fff, #ccc); box-shadow: 1px 1px 3px var(--shadow); }
+#turn {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+
+/* Board wrapper */
+#board-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+#bar {
+  display: inline-block;
+}
+
+/* D-pad */
+#dpad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+}
+#dpad-mid { display: flex; gap: 4px; }
+.dbtn {
+  width: 36px; height: 36px;
+  background: var(--panel);
+  border: 1px solid #2a3a4a;
+  color: var(--accent);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: background .15s, opacity .2s;
+}
+.dbtn:hover:not(:disabled) { background: #1f3045; }
+.dbtn:disabled { opacity: .22; cursor: default; }
+#dpad-center {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  color: #3a5060; font-size: .65rem; letter-spacing: .5px;
+}
+
+/* Board grid — no outer border; all cells are equal, no edge preference */
+#board {
+  display: grid;
+  gap: 2px;
+  background: var(--green-dk);
+}
+
+/* Cells */
+.cell {
+  background: var(--green);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background .15s;
+}
+.cell.can { cursor: pointer; }
+.cell.can:hover { background: var(--green-h); }
+/* Valid-move hint dot */
+.cell.can::after {
+  content: '';
+  position: absolute;
+  width: 28%;
+  height: 28%;
+  border-radius: 50%;
+  background: rgba(255,255,255,.33);
+}
+/* Last-move ring */
+.cell.last-move { outline: 2px solid rgba(255,255,200,.65); outline-offset: -2px; }
+
+/* Pieces */
+.pc {
+  border-radius: 50%;
+  box-shadow: 2px 3px 8px var(--shadow);
+  flex-shrink: 0;
+}
+.pc.b { background: radial-gradient(circle at 36% 32%, #666, #0d0d0d); }
+.pc.w { background: radial-gradient(circle at 36% 32%, #fff, #c8c8c8); }
+.pc.new  { animation: pop  .22s ease-out; }
+.pc.flip { animation: flip .32s ease-in-out; }
+
+@keyframes pop {
+  0%   { transform: scale(.25) rotate(-90deg); }
+  75%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+@keyframes flip {
+  0%, 100% { transform: scaleY(1); }
+  45%       { transform: scaleY(.05); }
+}
+
+/* Message bar */
+#msg {
+  min-height: 28px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+}
+
+/* Board + guide layout */
+#play {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Info panel — left of board */
+#info {
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 14px 18px;
+  width: 260px;
+  font-size: .82rem;
+  line-height: 1.7;
+  color: #99aabb;
+}
+#info b { color: var(--accent); }
+#info h2 { font-size: .9rem; color: var(--accent); margin-bottom: 8px; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<h1>♞ UNIVERSAL REVERSI</h1>
+
+<div id="play">
+  <div id="info">
+    <h2>HOW TO PLAY</h2>
+    <b>Objective</b><br>
+    Have the most pieces when neither player can move.<br><br>
+    <b>Placing</b><br>
+    Click a highlighted cell to place your piece. You must flank at least one opponent piece in any direction.<br><br>
+    <b>Flanking</b><br>
+    All opponent pieces between your new piece and another of yours (in a straight line) flip to your colour.<br><br>
+    <b>Toroidal board</b><br>
+    Opposite edges are connected — lines can wrap around. Use ↑↓←→ or the arrow buttons to pan the view.<br><br>
+    <b>Pass</b><br>
+    If you have no valid move, your turn is skipped.<br><br>
+    <b>Board size</b><br>
+    Change size &amp; press <em>Restart Game</em>.
+  </div>
+
+  <div id="board-area">
+    <div id="turn">Black's Turn</div>
+    <div id="score">
+      <div class="sbox active" id="sb"><div class="dot b"></div><span id="bc">2</span></div>
+      <div class="sbox" id="sw"><div class="dot w"></div><span id="wc">2</span></div>
+    </div>
+    <div id="bar">
+      <div id="board"></div>
+    </div>
+
+    <div id="dpad">
+      <button class="dbtn" id="du" title="Shift up ↑">▲</button>
+      <div id="dpad-mid">
+        <button class="dbtn" id="dl" title="Shift left ←">◀</button>
+        <div id="dpad-center">PAN</div>
+        <button class="dbtn" id="dr" title="Shift right →">▶</button>
+      </div>
+      <button class="dbtn" id="dd" title="Shift down ↓">▼</button>
+    </div>
+
+    <div id="msg"></div>
+  </div>
+
+  <div id="ctrl">
+    <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
+      <span>Board size</span>
+      <input type="range" id="sz" min="4" max="16" step="2" value="8">
+      <span id="szlbl" style="text-align:center; font-size:.85rem; color:var(--accent);">8 × 8</span>
+    </div>
+    <div class="cg">
+      <label class="togwrap"><input type="checkbox" id="ai"><span class="track"></span></label>
+      <span>vs AI</span>
+    </div>
+    <button class="btn" id="ng">Restart Game</button>
+  </div>
+</div>
+
+<script>
+/* ─── Constants ─── */
+const DIRS = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+
+/* ─── State ─── */
+let board, cur, size, wH, wV, vsAI, over, lastMove, lastFlips, aiTimer;
+let viewR = 0, viewC = 0;
+
+/* ─── Helpers ─── */
+function wrapPos(r, c) {
+  let nr = r, nc = c;
+  if (wV) nr = ((r % size) + size) % size;
+  else if (r < 0 || r >= size) return null;
+  if (wH) nc = ((c % size) + size) % size;
+  else if (c < 0 || c >= size) return null;
+  return [nr, nc];
+}
+
+/**
+ * Returns unique board positions that would be flipped if player p
+ * places a piece at (r, c). Returns [] if the move is invalid.
+ * Uses a Set to deduplicate — on a torus the same cell can be
+ * reached from multiple ray directions.
+ */
+function calcFlips(r, c, p) {
+  if (board[r][c] !== 0) return [];
+  const opp = 3 - p;
+  const seen = new Set();
+  const res = [];
+  for (const [dr, dc] of DIRS) {
+    const line = [];
+    let pos = wrapPos(r + dr, c + dc);
+    let steps = 0;
+    // steps < size prevents infinite cycling on a fully-opponent torus row
+    while (pos && board[pos[0]][pos[1]] === opp && steps < size) {
+      line.push(pos);
+      pos = wrapPos(pos[0] + dr, pos[1] + dc);
+      steps++;
+    }
+    if (pos && board[pos[0]][pos[1]] === p && line.length) {
+      for (const [fr, fc] of line) {
+        const key = fr * size + fc;
+        if (!seen.has(key)) { seen.add(key); res.push([fr, fc]); }
+      }
+    }
+  }
+  return res;
+}
+
+function validMoves(p) {
+  const m = [];
+  for (let r = 0; r < size; r++)
+    for (let c = 0; c < size; c++)
+      if (calcFlips(r, c, p).length) m.push([r, c]);
+  return m;
+}
+
+function place(r, c, p) {
+  const f = calcFlips(r, c, p);
+  if (!f.length) return false;
+  lastMove = [r, c];
+  lastFlips = f;
+  board[r][c] = p;
+  f.forEach(([fr, fc]) => board[fr][fc] = p);
+  return true;
+}
+
+/* ─── Init ─── */
+function init() {
+  if (aiTimer !== undefined) { clearTimeout(aiTimer); aiTimer = undefined; }
+  board = Array.from({length: size}, () => Array(size).fill(0));
+  const m = size >> 1;
+  board[m-1][m-1] = 2; board[m-1][m] = 1;
+  board[m][m-1]   = 1; board[m][m]   = 2;
+  cur = 1; over = false; lastMove = null; lastFlips = [];
+  viewR = 0; viewC = 0;
+}
+
+/* ─── Render ─── */
+function cellSize() {
+  return Math.max(30, Math.min(62, Math.floor(520 / size)));
+}
+
+function render(passNote) {
+  const boardEl = document.getElementById('board');
+  const s = cellSize();
+  boardEl.style.gridTemplateColumns = `repeat(${size}, ${s}px)`;
+
+  const moves = over ? [] : validMoves(cur);
+  const mSet  = new Set(moves.map(([r, c]) => r * size + c));
+  const fSet  = new Set((lastFlips || []).map(([r, c]) => r * size + c));
+  const lmKey = lastMove ? lastMove[0] * size + lastMove[1] : -1;
+
+  boardEl.innerHTML = '';
+  for (let vr = 0; vr < size; vr++) {
+    for (let vc = 0; vc < size; vc++) {
+      // Map visible position → board position via viewport offset
+      const br = (vr + viewR + size * 2) % size;
+      const bc = (vc + viewC + size * 2) % size;
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.style.width = cell.style.height = s + 'px';
+      const key = br * size + bc;
+      const v = board[br][bc];
+
+      if (v) {
+        const pc = document.createElement('div');
+        pc.className = 'pc ' + (v === 1 ? 'b' : 'w');
+        if (key === lmKey) pc.classList.add('new');
+        else if (fSet.has(key)) pc.classList.add('flip');
+        pc.style.width = pc.style.height = Math.round(s * 0.8) + 'px';
+        cell.appendChild(pc);
+        if (key === lmKey) cell.classList.add('last-move');
+      } else if (mSet.has(key)) {
+        cell.classList.add('can');
+        cell.addEventListener('click', () => onClick(br, bc));
+      }
+      boardEl.appendChild(cell);
+    }
+  }
+
+  // Scores
+  let b = 0, w = 0;
+  board.flat().forEach(v => { if (v === 1) b++; else if (v === 2) w++; });
+  document.getElementById('bc').textContent = b;
+  document.getElementById('wc').textContent = w;
+  document.getElementById('sb').classList.toggle('active', cur === 1 && !over);
+  document.getElementById('sw').classList.toggle('active', cur === 2 && !over);
+
+  // Turn / status
+  const turnEl = document.getElementById('turn');
+  const msgEl  = document.getElementById('msg');
+  if (over) {
+    const win = b > w ? 'Black' : w > b ? 'White' : null;
+    turnEl.textContent = win ? `${win} Wins!` : "It's a Tie!";
+    msgEl.textContent  = win
+      ? `${win} wins — ${Math.max(b,w)} vs ${Math.min(b,w)}`
+      : `Tie! ${b} – ${w}`;
+  } else {
+    turnEl.textContent = `${cur === 1 ? 'Black' : 'White'}'s Turn`;
+    msgEl.textContent  = passNote || '';
+  }
+
+  // D-pad: enable only on wrapped axes
+  document.getElementById('dl').disabled = !wH;
+  document.getElementById('dr').disabled = !wH;
+  document.getElementById('du').disabled = !wV;
+  document.getElementById('dd').disabled = !wV;
+}
+
+/* ─── Pan / shift viewport ─── */
+function shiftView(dr, dc) {
+  if (wV) viewR = ((viewR + dr) % size + size) % size;
+  if (wH) viewC = ((viewC + dc) % size + size) % size;
+  render();
+}
+
+/* ─── Turn logic ─── */
+function advance() {
+  const nxt = 3 - cur;
+  let passNote = '';
+  if (validMoves(nxt).length > 0) {
+    cur = nxt;
+  } else if (validMoves(cur).length === 0) {
+    over = true;
+  } else {
+    // Opponent has no moves; current player goes again
+    passNote = `${nxt === 1 ? 'Black' : 'White'} has no valid moves — ${cur === 1 ? 'Black' : 'White'} plays again`;
+  }
+  render(passNote);
+  if (!over && vsAI && cur === 2) {
+    aiTimer = setTimeout(aiPlay, 520);
+  }
+}
+
+function onClick(r, c) {
+  if (over || (vsAI && cur === 2)) return;
+  if (place(r, c, cur)) advance();
+}
+
+/* ─── AI (greedy: maximise immediate flips) ─── */
+function aiPlay() {
+  aiTimer = undefined;
+  if (over || !vsAI || cur !== 2) return;
+  const moves = validMoves(2);
+  if (!moves.length) { advance(); return; }
+  let best = moves[0], bn = -1;
+  for (const [r, c] of moves) {
+    const n = calcFlips(r, c, 2).length;
+    if (n > bn) { bn = n; best = [r, c]; }
+  }
+  place(best[0], best[1], 2);
+  advance();
+}
+
+/* ─── UI wiring ─── */
+document.getElementById('sz').addEventListener('input', function () {
+  document.getElementById('szlbl').textContent = `${this.value} × ${this.value}`;
+});
+
+document.getElementById('ng').addEventListener('click', () => {
+  size  = +document.getElementById('sz').value;
+  wH = wV = true;
+  vsAI  = document.getElementById('ai').checked;
+  init();
+  render();
+  if (!over && vsAI && cur === 2) aiTimer = setTimeout(aiPlay, 520);
+});
+
+/* ─── D-pad & keyboard wiring ─── */
+document.getElementById('du').addEventListener('click', () => shiftView(-1, 0));
+document.getElementById('dd').addEventListener('click', () => shiftView( 1, 0));
+document.getElementById('dl').addEventListener('click', () => shiftView( 0,-1));
+document.getElementById('dr').addEventListener('click', () => shiftView( 0, 1));
+
+document.addEventListener('keydown', e => {
+  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) {
+    e.preventDefault();
+    if (e.key === 'ArrowUp')    shiftView(-1, 0);
+    if (e.key === 'ArrowDown')  shiftView( 1, 0);
+    if (e.key === 'ArrowLeft')  shiftView( 0,-1);
+    if (e.key === 'ArrowRight') shiftView( 0, 1);
+  }
+});
+
+/* ─── Start ─── */
+size = 8; wH = wV = true; vsAI = false;
+init();
+render();
+</script>
+</body>
+</html>
