@@ -1,6 +1,6 @@
 # ♞ Universal Reversi
 
-*💡 by [Norbert Nopper](https://github.com/McNopper)* - an implementation of [Reversi](https://en.wikipedia.org/wiki/Reversi) with a infinite playing field.
+*💡 by [Norbert Nopper](https://github.com/McNopper)* - an implementation of [Reversi](https://en.wikipedia.org/wiki/Reversi) with an infinite playing field.
 
 *Dedicated to my kids and wife — with love ❤️ and wonder 🌟*
 
