@@ -597,8 +597,6 @@ function render(passNote, noAnim) {
   board.flat().forEach(v => { if (v === 1) b++; else if (v === 2) w++; });
   document.getElementById('bc').textContent = b;
   document.getElementById('wc').textContent = w;
-  document.getElementById('blbl').textContent = playerLabel(1);
-  document.getElementById('wlbl').textContent = playerLabel(2);
   document.getElementById('sb').classList.toggle('active', cur === 1 && !over);
   document.getElementById('sw').classList.toggle('active', cur === 2 && !over);
   const dotB = document.querySelector('#sb .dot');
@@ -610,11 +608,18 @@ function render(passNote, noAnim) {
 
   const turnEl = document.getElementById('turn');
   const msgEl  = document.getElementById('msg');
+  const blbl   = document.getElementById('blbl');
+  const wlbl   = document.getElementById('wlbl');
   if (over) {
     const win = b > w ? 'Black' : w > b ? 'White' : null;
     turnEl.textContent = win ? `${win} Wins!` : "It's a Tie!";
     msgEl.textContent  = '';
+    if (win === 'Black') { blbl.textContent = '🎉'; wlbl.textContent = '😢'; }
+    else if (win === 'White') { blbl.textContent = '😢'; wlbl.textContent = '🎉'; }
+    else { blbl.textContent = '🤝'; wlbl.textContent = '🤝'; }
   } else {
+    blbl.textContent   = playerLabel(1);
+    wlbl.textContent   = playerLabel(2);
     turnEl.textContent = `${playerLabel(cur)} ${cur === 1 ? 'Black' : 'White'}'s Turn`;
     msgEl.textContent  = passNote || '';
   }
