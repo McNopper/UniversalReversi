@@ -1,0 +1,11 @@
+# Node / Puppeteer (used for screenshot generation only)
+node_modules/
+package.json
+package-lock.json
+
+# Screenshot generation script
+screenshots.js
+
+# OS artefacts
+.DS_Store
+Thumbs.db

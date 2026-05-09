@@ -225,7 +225,62 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   color: #99aabb;
 }
 #info b { color: var(--accent); }
-#info h2 { font-size: .9rem; color: var(--accent); margin-bottom: 8px; letter-spacing: 1px; }
+/* desktop: summary looks like a heading, not interactive */
+#info details > summary {
+  font-size: .9rem; color: var(--accent); margin-bottom: 8px;
+  letter-spacing: 1px; font-weight: 700;
+  list-style: none; display: block;
+  cursor: default; pointer-events: none;
+}
+#info details > summary::marker,
+#info details > summary::-webkit-details-marker { display: none; }
+/* emoji label in score box */
+.plbl { font-size: 1rem; line-height: 1; }
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  body { padding: 10px 8px; gap: 8px; }
+  h1 { font-size: 1.25rem; letter-spacing: 1px; }
+
+  #play { flex-direction: column; align-items: stretch; gap: 10px; }
+
+  /* collapsible rules panel */
+  #info {
+    width: 100%;
+    border-radius: 10px;
+    padding: 0;
+    overflow: hidden;
+  }
+  #info details > summary {
+    pointer-events: auto;
+    cursor: pointer;
+    margin-bottom: 0;
+    padding: 10px 14px;
+    font-size: .85rem;
+    user-select: none;
+  }
+  #info summary::after { content: ' ▾'; }
+  #info details[open] summary::after { content: ' ▴'; }
+  #info .info-body { padding: 0 14px 12px; }
+
+  #board-area { align-items: center; gap: 8px; }
+
+  /* controls: 2-column grid */
+  #ctrl {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 14px;
+  }
+  #ctrl .btn { grid-column: 1 / -1; padding: 10px; font-size: 1rem; }
+
+  /* bigger D-pad touch targets */
+  .dbtn { width: 48px; height: 48px; font-size: 1.3rem; }
+  #dpad-center { width: 48px; height: 48px; }
+
+  #turn { font-size: 1.05rem; }
+  #msg  { font-size: .95rem; }
+}
 </style>
 </head>
 <body>
@@ -234,26 +289,30 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 
 <div id="play">
   <div id="info">
-    <h2>HOW TO PLAY</h2>
-    <b>Objective</b><br>
-    Have the most pieces when neither player can move.<br><br>
-    <b>Placing</b><br>
-    Click a highlighted cell to place your piece. You must flank at least one opponent piece in any direction.<br><br>
-    <b>Flanking</b><br>
-    All opponent pieces between your new piece and another of yours (in a straight line) flip to your colour.<br><br>
-    <b>Toroidal board</b><br>
-    Opposite edges are connected — lines can wrap around. Use ↑↓←→ or the arrow buttons to pan the view.<br><br>
-    <b>Pass</b><br>
-    If you have no valid move, your turn is skipped.<br><br>
-    <b>Board size</b><br>
-    Change size &amp; press <em>Restart Game</em>.
+    <details open>
+      <summary>HOW TO PLAY</summary>
+      <div class="info-body">
+        <b>Objective</b><br>
+        Have the most pieces when neither player can move.<br><br>
+        <b>Placing</b><br>
+        Click a highlighted cell to place your piece. You must flank at least one opponent piece in any direction.<br><br>
+        <b>Flanking</b><br>
+        All opponent pieces between your new piece and another of yours (in a straight line) flip to your colour.<br><br>
+        <b>Toroidal board</b><br>
+        Opposite edges are connected — lines can wrap around. Use ↑↓←→ or the arrow buttons to pan the view.<br><br>
+        <b>Pass</b><br>
+        If you have no valid move, your turn is skipped.<br><br>
+        <b>Board size</b><br>
+        Change size &amp; press <em>Restart Game</em>.
+      </div>
+    </details>
   </div>
 
   <div id="board-area">
     <div id="turn">Black's Turn</div>
     <div id="score">
-      <div class="sbox active" id="sb"><div class="dot b"></div><span id="bc">2</span></div>
-      <div class="sbox" id="sw"><div class="dot w"></div><span id="wc">2</span></div>
+      <div class="sbox active" id="sb"><div class="dot b"></div><span id="blbl" class="plbl">😊</span><span id="bc">2</span></div>
+      <div class="sbox" id="sw"><div class="dot w"></div><span id="wlbl" class="plbl">😊</span><span id="wc">2</span></div>
     </div>
     <div id="bar">
       <div id="board"></div>
@@ -278,9 +337,14 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
       <input type="range" id="sz" min="4" max="16" step="2" value="8">
       <span id="szlbl" style="text-align:center; font-size:.85rem; color:var(--accent);">8 × 8</span>
     </div>
-    <div class="cg">
-      <label class="togwrap"><input type="checkbox" id="ai"><span class="track"></span></label>
-      <span>vs AI</span>
+    <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
+      <span>Mode</span>
+      <select id="mode" style="background:var(--bg); color:var(--text); border:1px solid #2a3a4a; border-radius:7px; padding:5px 8px; font-size:.9rem; cursor:pointer;">
+        <option value="hvh">😊 Human vs 😊 Human</option>
+        <option value="hvai" selected>😊 Human vs 🤖 AI</option>
+        <option value="aivh">🤖 AI vs 😊 Human</option>
+        <option value="aivai">🤖 AI vs 🤖 AI</option>
+      </select>
     </div>
     <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
       <span>Starts</span>
@@ -288,6 +352,21 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
         <option value="1">⚫ Black</option>
         <option value="2">⚪ White</option>
       </select>
+    </div>
+    <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
+      <span>AI difficulty</span>
+      <select id="diff" style="background:var(--bg); color:var(--text); border:1px solid #2a3a4a; border-radius:7px; padding:5px 8px; font-size:.9rem; cursor:pointer;">
+        <option value="veryeasy">😇 Very Easy</option>
+        <option value="easy">😊 Easy</option>
+        <option value="medium" selected>😐 Medium</option>
+        <option value="hard">☹️ Hard</option>
+        <option value="extrahard">😈 Extra Hard</option>
+      </select>
+    </div>
+    <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
+      <span>AI delay</span>
+      <input type="range" id="aidelay" min="100" max="1000" step="100" value="500">
+      <span id="aiDelayLbl" style="text-align:center; font-size:.85rem; color:var(--accent);">0.5s</span>
     </div>
     <button class="btn" id="ng">Restart Game</button>
   </div>
@@ -298,10 +377,18 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 const DIRS = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
 
 /* ─── State ─── */
-let board, cur, size, wH, wV, vsAI, over, lastMove, lastFlips, aiTimer;
+let board, cur, size, wH, wV, aiMode, aiDiff, aiDelay, over, lastMove, lastFlips, aiTimer;
 let viewR = 0, viewC = 0;
 
-/* ─── Helpers ─── */
+/* ─── Player helpers ─── */
+function isAI(p) {
+  return aiMode === 'aivai' ||
+         (aiMode === 'hvai' && p === 2) ||
+         (aiMode === 'aivh' && p === 1);
+}
+function playerLabel(p) { return isAI(p) ? '🤖' : '😊'; }
+
+/* ─── Board helpers ─── */
 function wrapPos(r, c) {
   let nr = r, nc = c;
   if (wV) nr = ((r % size) + size) % size;
@@ -311,28 +398,16 @@ function wrapPos(r, c) {
   return [nr, nc];
 }
 
-/**
- * Returns unique board positions that would be flipped if player p
- * places a piece at (r, c). Returns [] if the move is invalid.
- * Uses a Set to deduplicate — on a torus the same cell can be
- * reached from multiple ray directions.
- */
-function calcFlips(r, c, p) {
-  if (board[r][c] !== 0) return [];
-  const opp = 3 - p;
-  const seen = new Set();
-  const res = [];
+function calcFlipsOn(b, r, c, p) {
+  if (b[r][c] !== 0) return [];
+  const opp = 3 - p, seen = new Set(), res = [];
   for (const [dr, dc] of DIRS) {
     const line = [];
-    let pos = wrapPos(r + dr, c + dc);
-    let steps = 0;
-    // steps < size prevents infinite cycling on a fully-opponent torus row
-    while (pos && board[pos[0]][pos[1]] === opp && steps < size) {
-      line.push(pos);
-      pos = wrapPos(pos[0] + dr, pos[1] + dc);
-      steps++;
+    let pos = wrapPos(r + dr, c + dc), steps = 0;
+    while (pos && b[pos[0]][pos[1]] === opp && steps < size) {
+      line.push(pos); pos = wrapPos(pos[0] + dr, pos[1] + dc); steps++;
     }
-    if (pos && board[pos[0]][pos[1]] === p && line.length) {
+    if (pos && b[pos[0]][pos[1]] === p && line.length) {
       for (const [fr, fc] of line) {
         const key = fr * size + fc;
         if (!seen.has(key)) { seen.add(key); res.push([fr, fc]); }
@@ -342,22 +417,80 @@ function calcFlips(r, c, p) {
   return res;
 }
 
-function validMoves(p) {
-  const m = [];
-  for (let r = 0; r < size; r++)
-    for (let c = 0; c < size; c++)
-      if (calcFlips(r, c, p).length) m.push([r, c]);
-  return m;
+function calcFlips(r, c, p)      { return calcFlipsOn(board, r, c, p); }
+function validMovesOn(b, p)      { const m = []; for (let r = 0; r < size; r++) for (let c = 0; c < size; c++) if (calcFlipsOn(b,r,c,p).length) m.push([r,c]); return m; }
+function validMoves(p)           { return validMovesOn(board, p); }
+
+function applyMoveOn(b, r, c, p) {
+  const nb = b.map(row => [...row]);
+  calcFlipsOn(nb, r, c, p).forEach(([fr, fc]) => nb[fr][fc] = p);
+  nb[r][c] = p;
+  return nb;
 }
 
 function place(r, c, p) {
   const f = calcFlips(r, c, p);
   if (!f.length) return false;
-  lastMove = [r, c];
-  lastFlips = f;
+  lastMove = [r, c]; lastFlips = f;
   board[r][c] = p;
   f.forEach(([fr, fc]) => board[fr][fc] = p);
   return true;
+}
+
+/* ─── AI ─── */
+function evaluate(b, p) {
+  let mine = 0, opp = 0;
+  b.flat().forEach(v => { if (v === p) mine++; else if (v) opp++; });
+  const myMov  = validMovesOn(b, p).length;
+  const oppMov = validMovesOn(b, 3 - p).length;
+  const endgame = (mine + opp) / (size * size);
+  return (1 - endgame) * 3 * (myMov - oppMov) + endgame * (mine - opp);
+}
+
+function minimax(b, depth, alpha, beta, maximizing, aiP) {
+  const curP  = maximizing ? aiP : 3 - aiP;
+  const moves = validMovesOn(b, curP);
+  if (depth === 0 || (moves.length === 0 && validMovesOn(b, 3 - curP).length === 0))
+    return evaluate(b, aiP);
+  if (moves.length === 0)
+    return minimax(b, depth - 1, alpha, beta, !maximizing, aiP);
+
+  if (maximizing) {
+    let best = -Infinity;
+    for (const [r, c] of moves) {
+      best = Math.max(best, minimax(applyMoveOn(b,r,c,curP), depth-1, alpha, beta, false, aiP));
+      alpha = Math.max(alpha, best);
+      if (beta <= alpha) break;
+    }
+    return best;
+  } else {
+    let best = Infinity;
+    for (const [r, c] of moves) {
+      best = Math.min(best, minimax(applyMoveOn(b,r,c,curP), depth-1, alpha, beta, true, aiP));
+      beta = Math.min(beta, best);
+      if (beta <= alpha) break;
+    }
+    return best;
+  }
+}
+
+function aiChooseMove(p) {
+  const moves = validMoves(p);
+  if (!moves.length) return null;
+  if (aiDiff === 'veryeasy') return moves[Math.floor(Math.random() * moves.length)];
+  if (aiDiff === 'easy') {
+    let best = moves[0], bn = -1;
+    for (const [r, c] of moves) { const n = calcFlips(r,c,p).length; if (n > bn) { bn = n; best = [r,c]; } }
+    return best;
+  }
+  // medium: depth 3 / hard: depth 4 / extrahard: depth 5
+  const depth = aiDiff === 'extrahard' ? 5 : aiDiff === 'hard' ? 4 : 3;
+  let best = moves[0], bn = -Infinity;
+  for (const [r, c] of moves) {
+    const val = minimax(applyMoveOn(board,r,c,p), depth, -Infinity, Infinity, false, p);
+    if (val > bn) { bn = val; best = [r, c]; }
+  }
+  return best;
 }
 
 /* ─── Init ─── */
@@ -367,13 +500,15 @@ function init() {
   const m = size >> 1;
   board[m-1][m-1] = 2; board[m-1][m] = 1;
   board[m][m-1]   = 1; board[m][m]   = 2;
-  cur = +document.getElementById('starts').value; over = false; lastMove = null; lastFlips = [];
+  cur = +document.getElementById('starts').value;
+  over = false; lastMove = null; lastFlips = [];
   viewR = 0; viewC = 0;
 }
 
 /* ─── Render ─── */
 function cellSize() {
-  return Math.max(30, Math.min(62, Math.floor(520 / size)));
+  const avail = Math.min(window.innerWidth - 48, 520);
+  return Math.max(28, Math.min(62, Math.floor(avail / size)));
 }
 
 function render(passNote, noAnim) {
@@ -381,7 +516,7 @@ function render(passNote, noAnim) {
   const s = cellSize();
   boardEl.style.gridTemplateColumns = `repeat(${size}, ${s}px)`;
 
-  const moves = over ? [] : validMoves(cur);
+  const moves = over || isAI(cur) ? [] : validMoves(cur);
   const mSet  = new Set(moves.map(([r, c]) => r * size + c));
   const fSet  = new Set((lastFlips || []).map(([r, c]) => r * size + c));
   const lmKey = lastMove ? lastMove[0] * size + lastMove[1] : -1;
@@ -389,14 +524,12 @@ function render(passNote, noAnim) {
   boardEl.innerHTML = '';
   for (let vr = 0; vr < size; vr++) {
     for (let vc = 0; vc < size; vc++) {
-      // Map visible position → board position via viewport offset
       const br = (vr + viewR + size * 2) % size;
       const bc = (vc + viewC + size * 2) % size;
       const cell = document.createElement('div');
       cell.className = 'cell';
       cell.style.width = cell.style.height = s + 'px';
-      const key = br * size + bc;
-      const v = board[br][bc];
+      const key = br * size + bc, v = board[br][bc];
 
       if (v) {
         const pc = document.createElement('div');
@@ -414,36 +547,33 @@ function render(passNote, noAnim) {
     }
   }
 
-  // Scores
   let b = 0, w = 0;
   board.flat().forEach(v => { if (v === 1) b++; else if (v === 2) w++; });
   document.getElementById('bc').textContent = b;
   document.getElementById('wc').textContent = w;
+  document.getElementById('blbl').textContent = playerLabel(1);
+  document.getElementById('wlbl').textContent = playerLabel(2);
   document.getElementById('sb').classList.toggle('active', cur === 1 && !over);
   document.getElementById('sw').classList.toggle('active', cur === 2 && !over);
 
-  // Turn / status
   const turnEl = document.getElementById('turn');
   const msgEl  = document.getElementById('msg');
   if (over) {
     const win = b > w ? 'Black' : w > b ? 'White' : null;
     turnEl.textContent = win ? `${win} Wins!` : "It's a Tie!";
-    msgEl.textContent  = win
-      ? `${win} wins — ${Math.max(b,w)} vs ${Math.min(b,w)}`
-      : `Tie! ${b} – ${w}`;
+    msgEl.textContent  = win ? `${win} wins — ${Math.max(b,w)} vs ${Math.min(b,w)}` : `Tie! ${b} – ${w}`;
   } else {
-    turnEl.textContent = `${cur === 1 ? 'Black' : 'White'}'s Turn`;
+    turnEl.textContent = `${playerLabel(cur)} ${cur === 1 ? 'Black' : 'White'}'s Turn`;
     msgEl.textContent  = passNote || '';
   }
 
-  // D-pad: enable only on wrapped axes
   document.getElementById('dl').disabled = !wH;
   document.getElementById('dr').disabled = !wH;
   document.getElementById('du').disabled = !wV;
   document.getElementById('dd').disabled = !wV;
 }
 
-/* ─── Pan / shift viewport ─── */
+/* ─── Pan ─── */
 function shiftView(dr, dc) {
   if (wV) viewR = ((viewR + dr) % size + size) % size;
   if (wH) viewC = ((viewC + dc) % size + size) % size;
@@ -451,6 +581,10 @@ function shiftView(dr, dc) {
 }
 
 /* ─── Turn logic ─── */
+function scheduleAI() {
+  if (!over && isAI(cur)) aiTimer = setTimeout(aiPlay, aiDelay);
+}
+
 function advance() {
   const nxt = 3 - cur;
   let passNote = '';
@@ -459,32 +593,23 @@ function advance() {
   } else if (validMoves(cur).length === 0) {
     over = true;
   } else {
-    // Opponent has no moves; current player goes again
     passNote = `${nxt === 1 ? 'Black' : 'White'} has no valid moves — ${cur === 1 ? 'Black' : 'White'} plays again`;
   }
   render(passNote);
-  if (!over && vsAI && cur === 2) {
-    aiTimer = setTimeout(aiPlay, 520);
-  }
+  scheduleAI();
 }
 
 function onClick(r, c) {
-  if (over || (vsAI && cur === 2)) return;
+  if (over || isAI(cur)) return;
   if (place(r, c, cur)) advance();
 }
 
-/* ─── AI (greedy: maximise immediate flips) ─── */
 function aiPlay() {
   aiTimer = undefined;
-  if (over || !vsAI || cur !== 2) return;
-  const moves = validMoves(2);
-  if (!moves.length) { advance(); return; }
-  let best = moves[0], bn = -1;
-  for (const [r, c] of moves) {
-    const n = calcFlips(r, c, 2).length;
-    if (n > bn) { bn = n; best = [r, c]; }
-  }
-  place(best[0], best[1], 2);
+  if (over || !isAI(cur)) return;
+  const move = aiChooseMove(cur);
+  if (!move) { advance(); return; }
+  place(move[0], move[1], cur);
   advance();
 }
 
@@ -492,17 +617,19 @@ function aiPlay() {
 document.getElementById('sz').addEventListener('input', function () {
   document.getElementById('szlbl').textContent = `${this.value} × ${this.value}`;
 });
-
+document.getElementById('aidelay').addEventListener('input', function () {
+  aiDelay = +this.value;
+  document.getElementById('aiDelayLbl').textContent = (aiDelay / 1000).toFixed(1) + 's';
+});
 document.getElementById('ng').addEventListener('click', () => {
-  size  = +document.getElementById('sz').value;
+  size    = +document.getElementById('sz').value;
   wH = wV = true;
-  vsAI  = document.getElementById('ai').checked;
-  init();
-  render();
-  if (!over && vsAI && cur === 2) aiTimer = setTimeout(aiPlay, 520);
+  aiMode  = document.getElementById('mode').value;
+  aiDiff  = document.getElementById('diff').value;
+  aiDelay = +document.getElementById('aidelay').value;
+  init(); render(); scheduleAI();
 });
 
-/* ─── D-pad & keyboard wiring ─── */
 document.getElementById('du').addEventListener('click', () => shiftView(-1, 0));
 document.getElementById('dd').addEventListener('click', () => shiftView( 1, 0));
 document.getElementById('dl').addEventListener('click', () => shiftView( 0,-1));
@@ -517,12 +644,17 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') shiftView( 0, 1);
   }
 });
+window.addEventListener('resize', () => render(null, true));
 
 /* ─── Start ─── */
-size = 8; wH = wV = true; vsAI = false;
-init();
-render();
-if (!over && vsAI && cur === 2) aiTimer = setTimeout(aiPlay, 520);
+size = 8; wH = wV = true; aiMode = 'hvai'; aiDiff = 'medium'; aiDelay = 500;
+init(); render(); scheduleAI();
 </script>
+
+<footer style="margin-top:8px; font-size:.78rem; color:#4a6070; text-align:center;">
+  © 2025 <a href="https://github.com/McNopper" target="_blank" rel="noopener"
+    style="color:var(--accent); text-decoration:none;">Norbert Nopper</a>
+</footer>
+
 </body>
 </html>
