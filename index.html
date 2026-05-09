@@ -104,6 +104,11 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   color: var(--accent);
   letter-spacing: 1px;
 }
+@keyframes thinking-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .35; }
+}
+.thinking { animation: thinking-pulse 1s ease-in-out infinite; }
 
 /* Board wrapper */
 #board-area {
@@ -377,7 +382,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 const DIRS = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
 
 /* ─── State ─── */
-let board, cur, size, wH, wV, aiMode, aiDiff, aiDelay, over, lastMove, lastFlips, aiTimer;
+let board, cur, size, wH, wV, aiMode, aiDiff, aiDelay, over, lastMove, lastFlips, aiTimer, aiThinking;
 let viewR = 0, viewC = 0;
 
 /* ─── Player helpers ─── */
@@ -496,6 +501,7 @@ function aiChooseMove(p) {
 /* ─── Init ─── */
 function init() {
   if (aiTimer !== undefined) { clearTimeout(aiTimer); aiTimer = undefined; }
+  aiThinking = false;
   board = Array.from({length: size}, () => Array(size).fill(0));
   const m = size >> 1;
   board[m-1][m-1] = 2; board[m-1][m] = 1;
@@ -516,7 +522,7 @@ function render(passNote, noAnim) {
   const s = cellSize();
   boardEl.style.gridTemplateColumns = `repeat(${size}, ${s}px)`;
 
-  const moves = over || isAI(cur) ? [] : validMoves(cur);
+  const moves = over || (isAI(cur) && !aiThinking) ? [] : validMoves(cur);
   const mSet  = new Set(moves.map(([r, c]) => r * size + c));
   const fSet  = new Set((lastFlips || []).map(([r, c]) => r * size + c));
   const lmKey = lastMove ? lastMove[0] * size + lastMove[1] : -1;
@@ -582,7 +588,12 @@ function shiftView(dr, dc) {
 
 /* ─── Turn logic ─── */
 function scheduleAI() {
-  if (!over && isAI(cur)) aiTimer = setTimeout(aiPlay, aiDelay);
+  if (!over && isAI(cur)) {
+    aiThinking = true;
+    document.getElementById('turn').innerHTML = `🤖 <span class="thinking">Thinking…</span>`;
+    render(null, true);
+    aiTimer = setTimeout(aiPlay, aiDelay);
+  }
 }
 
 function advance() {
@@ -606,6 +617,7 @@ function onClick(r, c) {
 
 function aiPlay() {
   aiTimer = undefined;
+  aiThinking = false;
   if (over || !isAI(cur)) return;
   const move = aiChooseMove(cur);
   if (!move) { advance(); return; }
