@@ -50,7 +50,7 @@ Because the board is toroidal, flanking lines can cross any edge and wrap around
 ## References
 
 - **Original Reversi** — invented by [Lewis Waterman and John W. Mollett](https://en.wikipedia.org/wiki/Reversi) (1883)
-- **Implementation** — GitHub Copilot (AI) 🤖
+- **Implementation** — Artificial Intelligence 🤖
 
 ---
 
