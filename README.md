@@ -2,11 +2,13 @@
 
 A single-file HTML + JavaScript implementation of [Reversi](https://en.wikipedia.org/wiki/Reversi) with a toroidal (infinite) playing field.
 
+*Dedicated to my kids and wife — with love ❤️ and wonder 🌟*
+
 ### Desktop
 ![Universal Reversi – Desktop](screenshots/screenshot_desktop.png)
 
 ### Mobile
-![Universal Reversi – Mobile](screenshots/screenshot_mobile.png)
+<img src="screenshots/screenshot_mobile.png" alt="Universal Reversi – Mobile" width="320">
 
 ## Features
 
@@ -22,18 +24,20 @@ A single-file HTML + JavaScript implementation of [Reversi](https://en.wikipedia
   | 😐 Medium | Minimax with α-β pruning, depth 3 |
   | ☹️ Hard | Minimax with α-β pruning, depth 4 |
   | 😈 Extra Hard | Minimax with α-β pruning, depth 5 |
-- **AI reaction delay** — slider from 0 to 2 seconds so you can follow the AI's moves
+- **AI reaction delay** — slider from 0.1 to 1.0 seconds so you can follow the AI's moves
 - **Pan the view** — use ↑↓←→ or the on-screen d-pad to scroll around the infinite board
 - **Animations** — piece pop-in and flip effects
 - **Mobile-friendly** — responsive layout optimised for phones and tablets
 
-## Play online
+## How to Play
+
+### Online
 
 🌍 **[nopper.tv/ur](https://nopper.tv/ur/)**
 
-## How to play
+### Local
 
-Open `index.html` in any modern browser — no server or dependencies required.
+Download or clone the repository and open `index.html` directly in any modern browser — no server, no build step, no dependencies required.
 
 ## Rules
 
@@ -49,4 +53,4 @@ Because the board is toroidal, flanking lines can cross any edge and wrap around
 
 ---
 
-© 2025 [Norbert Nopper](https://github.com/McNopper)
+© 2026 [Norbert Nopper](https://github.com/McNopper)
