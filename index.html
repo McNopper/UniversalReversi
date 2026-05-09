@@ -624,8 +624,8 @@ function render(passNote, noAnim) {
     const win = b > w ? 'Black' : w > b ? 'White' : null;
     turnEl.textContent = win ? `${win} Wins!` : "It's a Tie!";
     msgEl.textContent  = '';
-    if (win === 'Black') { bres.textContent = '🎉'; wres.textContent = '😢'; }
-    else if (win === 'White') { bres.textContent = '😢'; wres.textContent = '🎉'; }
+    if (win === 'Black') { bres.textContent = '🎉'; wres.textContent = ''; }
+    else if (win === 'White') { bres.textContent = ''; wres.textContent = '🎉'; }
     else { bres.textContent = '🤝'; wres.textContent = '🤝'; }
   } else {
     bres.textContent   = '';
