@@ -134,6 +134,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  width: 520px;
+  flex-shrink: 0;
 }
 #status-panel { margin-bottom: 10px; }
 #bar {
@@ -408,7 +410,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
       <span>AI response delay</span>
       <input type="range" id="aidelay" min="100" max="1000" step="100" value="500">
       <span id="aiDelayLbl" style="text-align:center; font-size:.85rem; color:var(--accent);">0.5s</span>
-      <span style="font-size:.7rem; color:#556070; text-align:center;">Updates immediately</span>
+    </div>
     </div>
     <div class="cg" style="justify-content:space-between;">
       <span>Accessibility</span>
@@ -685,8 +687,7 @@ document.getElementById('sz').addEventListener('input', function () {
   document.getElementById('szlbl').textContent = `${this.value} × ${this.value}`;
 });
 document.getElementById('aidelay').addEventListener('input', function () {
-  aiDelay = +this.value;
-  document.getElementById('aiDelayLbl').textContent = (aiDelay / 1000).toFixed(1) + 's';
+  document.getElementById('aiDelayLbl').textContent = (+this.value / 1000).toFixed(1) + 's';
 });
 document.getElementById('ng').addEventListener('click', () => {
   size          = +document.getElementById('sz').value;
