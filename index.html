@@ -37,6 +37,7 @@ h1 { font-size: 2.1rem; color: var(--accent); letter-spacing: 3px; font-weight: 
   padding: 18px 18px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 16px;
   width: 260px;
   align-items: stretch;
@@ -222,7 +223,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 /* Board + guide layout */
 #play {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 24px;
   flex-wrap: wrap;
   justify-content: center;
@@ -237,6 +238,9 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   font-size: .82rem;
   line-height: 1.7;
   color: #99aabb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 #info b { color: var(--accent); }
 /* desktop: summary looks like a heading, not interactive */
