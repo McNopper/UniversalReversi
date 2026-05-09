@@ -613,7 +613,7 @@ function render(passNote, noAnim) {
   if (over) {
     const win = b > w ? 'Black' : w > b ? 'White' : null;
     turnEl.textContent = win ? `${win} Wins!` : "It's a Tie!";
-    msgEl.textContent  = win ? `${win} wins — ${Math.max(b,w)} vs ${Math.min(b,w)}` : `Tie! ${b} – ${w}`;
+    msgEl.textContent  = '';
   } else {
     turnEl.textContent = `${playerLabel(cur)} ${cur === 1 ? 'Black' : 'White'}'s Turn`;
     msgEl.textContent  = passNote || '';
