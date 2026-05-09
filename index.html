@@ -87,6 +87,17 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 .btn:hover { filter: brightness(1.15); }
 
 #score { display: flex; gap: 8px; }
+#status-panel {
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 140px;
+}
 .sbox {
   display: flex;
   align-items: center;
@@ -119,11 +130,13 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 #board-area {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  align-items: stretch;
 }
+#status-panel { margin-bottom: 10px; }
 #bar {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
 /* D-pad */
@@ -132,12 +145,15 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  margin-top: 10px;
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin-top: auto;
 }
 #dpad-mid { display: flex; gap: 4px; }
 .dbtn {
   width: 36px; height: 36px;
-  background: var(--panel);
+  background: #1a2a3a;
   border: 1px solid #2a3a4a;
   color: var(--accent);
   border-radius: 8px;
@@ -325,10 +341,12 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   </div>
 
   <div id="board-area">
-    <div id="turn">Black's Turn</div>
-    <div id="score">
-      <div class="sbox active" id="sb"><div class="dot b"></div><span id="blbl" class="plbl">😊</span><span id="bc">2</span></div>
-      <div class="sbox" id="sw"><div class="dot w"></div><span id="wlbl" class="plbl">😊</span><span id="wc">2</span></div>
+    <div id="status-panel">
+      <div id="turn">Black's Turn</div>
+      <div id="score">
+        <div class="sbox active" id="sb"><div class="dot b"></div><span id="blbl" class="plbl">😊</span><span id="bc">2</span></div>
+        <div class="sbox" id="sw"><div class="dot w"></div><span id="wlbl" class="plbl">😊</span><span id="wc">2</span></div>
+      </div>
     </div>
     <div id="bar">
       <div id="board"></div>
