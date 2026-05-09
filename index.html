@@ -342,8 +342,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
     <div id="status-panel">
       <div id="turn">Black's Turn</div>
       <div id="score">
-        <div class="sbox active" id="sb"><div class="dot b"></div><span id="blbl" class="plbl">😊</span><span id="bc">2</span></div>
-        <div class="sbox" id="sw"><div class="dot w"></div><span id="wlbl" class="plbl">😊</span><span id="wc">2</span></div>
+        <div class="sbox active" id="sb"><div class="dot b"></div><span id="blbl" class="plbl">😊</span><span id="bres" class="plbl"></span><span id="bc">2</span></div>
+        <div class="sbox" id="sw"><div class="dot w"></div><span id="wlbl" class="plbl">😊</span><span id="wres" class="plbl"></span><span id="wc">2</span></div>
       </div>
     </div>
     <div id="bar">
@@ -610,16 +610,20 @@ function render(passNote, noAnim) {
   const msgEl  = document.getElementById('msg');
   const blbl   = document.getElementById('blbl');
   const wlbl   = document.getElementById('wlbl');
+  const bres   = document.getElementById('bres');
+  const wres   = document.getElementById('wres');
+  blbl.textContent = playerLabel(1);
+  wlbl.textContent = playerLabel(2);
   if (over) {
     const win = b > w ? 'Black' : w > b ? 'White' : null;
     turnEl.textContent = win ? `${win} Wins!` : "It's a Tie!";
     msgEl.textContent  = '';
-    if (win === 'Black') { blbl.textContent = '🎉'; wlbl.textContent = '😢'; }
-    else if (win === 'White') { blbl.textContent = '😢'; wlbl.textContent = '🎉'; }
-    else { blbl.textContent = '🤝'; wlbl.textContent = '🤝'; }
+    if (win === 'Black') { bres.textContent = '🎉'; wres.textContent = '😢'; }
+    else if (win === 'White') { bres.textContent = '😢'; wres.textContent = '🎉'; }
+    else { bres.textContent = '🤝'; wres.textContent = '🤝'; }
   } else {
-    blbl.textContent   = playerLabel(1);
-    wlbl.textContent   = playerLabel(2);
+    bres.textContent   = '';
+    wres.textContent   = '';
     turnEl.textContent = `${playerLabel(cur)} ${cur === 1 ? 'Black' : 'White'}'s Turn`;
     msgEl.textContent  = passNote || '';
   }
