@@ -136,7 +136,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 #bar {
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
+  align-items: center;
+  flex: 1;
 }
 
 /* D-pad */
@@ -148,7 +149,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   background: var(--panel);
   border-radius: 10px;
   padding: 12px 18px;
-  margin-top: auto;
+  margin-top: 10px;
 }
 #dpad-mid { display: flex; gap: 4px; }
 .dbtn {
@@ -352,6 +353,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
       <div id="board"></div>
     </div>
 
+    <div id="msg"></div>
+
     <div id="dpad">
       <button class="dbtn" id="du" title="Shift up ↑">▲</button>
       <div id="dpad-mid">
@@ -362,7 +365,6 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
       <button class="dbtn" id="dd" title="Shift down ↓">▼</button>
     </div>
 
-    <div id="msg"></div>
   </div>
 
   <div id="ctrl">
