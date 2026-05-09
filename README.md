@@ -2,7 +2,7 @@
 
 *💡 by [Norbert Nopper](https://nopper.tv)* - an implementation of Reversi with an infinite playing field.
 
-*Dedicated to my kids and wife — with love ❤️ and wonder 🌟*
+*Dedicated to my children and my wife — with Love ❤️ and Wonder 🌟*
 
 ## Digital Devices
 
