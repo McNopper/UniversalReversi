@@ -37,7 +37,7 @@ h1 { font-size: 2.1rem; color: var(--accent); letter-spacing: 3px; font-weight: 
   padding: 18px 18px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 16px;
   width: 260px;
   align-items: stretch;
@@ -240,7 +240,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   color: #99aabb;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 #info b { color: var(--accent); }
 /* desktop: summary looks like a heading, not interactive */
@@ -690,11 +690,31 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') shiftView( 0, 1);
   }
 });
-window.addEventListener('resize', () => render(null, true));
+window.addEventListener('resize', () => { render(null, true); alignPanels(); });
+
+function alignPanels() {
+  requestAnimationFrame(() => {
+    const info = document.getElementById('info');
+    const ctrl = document.getElementById('ctrl');
+    const bar  = document.getElementById('bar');
+    const area = document.getElementById('board-area');
+    const areaTop = area.getBoundingClientRect().top;
+    const infoTop = info.getBoundingClientRect().top;
+    if (Math.abs(infoTop - areaTop) < 10) {
+      // Desktop: panels are beside the board — align text top with board top
+      const offset = Math.max(0, bar.getBoundingClientRect().top - areaTop);
+      info.style.paddingTop = offset + 'px';
+      ctrl.style.paddingTop = offset + 'px';
+    } else {
+      info.style.paddingTop = '';
+      ctrl.style.paddingTop = '';
+    }
+  });
+}
 
 /* ─── Start ─── */
 size = 8; wH = wV = true; aiMode = 'hvai'; aiDiff = 'medium'; aiDelay = 500; accessibility = false;
-init(); render(); scheduleAI();
+init(); render(); scheduleAI(); alignPanels();
 </script>
 
 <footer style="margin-top:-20px; font-size:.78rem; color:#4a6070; text-align:center;">
