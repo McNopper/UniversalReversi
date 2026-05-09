@@ -25,8 +25,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 12px;
-  gap: 16px;
+  padding: 12px 12px;
+  gap: 8px;
 }
 h1 { font-size: 2.1rem; color: var(--accent); letter-spacing: 3px; font-weight: 900; text-align: center; width: 100%; }
 
@@ -38,7 +38,7 @@ h1 { font-size: 2.1rem; color: var(--accent); letter-spacing: 3px; font-weight: 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 16px;
+  gap: 10px;
   width: 260px;
   align-items: stretch;
   color: #99aabb;
@@ -96,7 +96,6 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 140px;
 }
 .sbox {
   display: flex;
@@ -148,7 +147,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   gap: 4px;
   background: var(--panel);
   border-radius: 10px;
-  padding: 12px 18px;
+  padding: 8px 18px;
   margin-top: 10px;
 }
 #dpad-mid { display: flex; gap: 4px; }
@@ -228,7 +227,6 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 
 /* Message bar */
 #msg {
-  min-height: 28px;
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--accent);
@@ -239,9 +237,10 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 #play {
   display: flex;
   align-items: stretch;
-  gap: 24px;
+  gap: 16px;
   flex-wrap: wrap;
   justify-content: center;
+  flex: 1;
 }
 
 /* Info panel — left of board */
