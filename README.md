@@ -1,6 +1,6 @@
 # ♞ Universal Reversi
 
-*💡 by [Norbert Nopper](https://github.com/McNopper)* - an implementation of [Reversi](https://en.wikipedia.org/wiki/Reversi) with an infinite playing field.
+*💡 by [Norbert Nopper](https://nopper.tv)* - an implementation of Reversi with an infinite playing field.
 
 *Dedicated to my kids and wife — with love ❤️ and wonder 🌟*
 
@@ -50,7 +50,7 @@ Because the board is toroidal, flanking lines can cross any edge and wrap around
 ## References
 
 - **Original Reversi** — invented by [Lewis Waterman and John W. Mollett](https://en.wikipedia.org/wiki/Reversi) (1883)
-- **Implementation** — Artificial Intelligence 🤖
+- **Implementation** — using different AI models 🤖
 
 ---
 
