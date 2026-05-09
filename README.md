@@ -15,7 +15,7 @@
 ## Features
 
 - **Configurable board size** — 4×4 up to 16×16 (even sizes, default 8×8)
-- **Toroidal board** — opposite edges connect seamlessly; no cell is an edge, no cell is special
+- **Infinite board** — opposite edges connect seamlessly; no cell is an edge, no cell is special
 - **Four game modes** — 😊 Human vs 😊 Human · 😊 Human vs 🤖 AI · 🤖 AI vs 😊 Human · 🤖 AI vs 🤖 AI
 - **Who starts** — choose whether ⚫ Black or ⚪ White makes the first move
 - **Five AI difficulty levels**
@@ -45,7 +45,7 @@ Download or clone the repository and open `index.html` directly in any modern br
 
 Standard Reversi rules apply: place a piece to flank one or more opponent pieces in any of the 8 directions; flanked pieces flip to your colour. The player with the most pieces when neither side can move wins.
 
-Because the board is toroidal, flanking lines can cross any edge and wrap around, opening up strategies impossible on a bounded board.
+Because the board is infinite, flanking lines can cross any edge and wrap around, opening up strategies impossible on a bounded board.
 
 ## References
 
@@ -54,4 +54,4 @@ Because the board is toroidal, flanking lines can cross any edge and wrap around
 
 ---
 
-© 2026 [Norbert Nopper](https://github.com/McNopper)
+© 2026 [Norbert Nopper](https://nopper.tv)
