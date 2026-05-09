@@ -266,6 +266,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 #info details > summary::-webkit-details-marker { display: none; }
 /* emoji label in score box */
 .plbl { font-size: 1rem; line-height: 1; }
+.reslbl { font-size: 1rem; line-height: 1; display: inline-block; min-width: 1.2em; text-align: center; }
 
 /* ── Mobile ── */
 @media (max-width: 640px) {
@@ -342,8 +343,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
     <div id="status-panel">
       <div id="turn">Black's Turn</div>
       <div id="score">
-        <div class="sbox active" id="sb"><div class="dot b"></div><span id="blbl" class="plbl">😊</span><span id="bres" class="plbl"></span><span id="bc">2</span></div>
-        <div class="sbox" id="sw"><div class="dot w"></div><span id="wlbl" class="plbl">😊</span><span id="wres" class="plbl"></span><span id="wc">2</span></div>
+        <div class="sbox active" id="sb"><div class="dot b"></div><span id="blbl" class="plbl">😊</span><span id="bres" class="reslbl"></span><span id="bc">2</span></div>
+        <div class="sbox" id="sw"><div class="dot w"></div><span id="wlbl" class="plbl">😊</span><span id="wres" class="reslbl"></span><span id="wc">2</span></div>
       </div>
     </div>
     <div id="bar">
