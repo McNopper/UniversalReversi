@@ -1,8 +1,10 @@
 # ♞ Universal Reversi
 
-A single-file HTML + JavaScript implementation of [Reversi](https://en.wikipedia.org/wiki/Reversi) with a toroidal (infinite) playing field.
+*💡 by [Norbert Nopper](https://github.com/McNopper)* - an implementation of [Reversi](https://en.wikipedia.org/wiki/Reversi) with a infinite playing field.
 
 *Dedicated to my kids and wife — with love ❤️ and wonder 🌟*
+
+## Digital Devices
 
 ### Desktop
 ![Universal Reversi – Desktop](screenshots/screenshot_desktop.png)
@@ -39,16 +41,15 @@ A single-file HTML + JavaScript implementation of [Reversi](https://en.wikipedia
 
 Download or clone the repository and open `index.html` directly in any modern browser — no server, no build step, no dependencies required.
 
-## Rules
+## Game Rules
 
 Standard Reversi rules apply: place a piece to flank one or more opponent pieces in any of the 8 directions; flanked pieces flip to your colour. The player with the most pieces when neither side can move wins.
 
 Because the board is toroidal, flanking lines can cross any edge and wrap around, opening up strategies impossible on a bounded board.
 
-## Credits
+## References
 
 - **Original Reversi** — invented by [Lewis Waterman and John W. Mollett](https://en.wikipedia.org/wiki/Reversi) (1883)
-- **Toroidal variant & concept** — [Norbert Nopper](https://github.com/McNopper) 💡
 - **Implementation** — GitHub Copilot (AI) 🤖
 
 ---
