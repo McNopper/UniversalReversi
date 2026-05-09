@@ -7,12 +7,19 @@
 ## Digital Devices
 
 ### Desktop
+
+#### Default Mode
+
 ![Universal Reversi – Desktop](screenshots/screenshot_desktop.png)
 
-### Desktop – Accessibility Mode
+#### Accessibility Mode
+
 ![Universal Reversi – Desktop Accessibility](screenshots/screenshot_desktop_accessibility.png)
 
 ### Mobile
+
+#### Default And Accessibility Mode
+
 <img src="screenshots/screenshot_mobile.png" alt="Universal Reversi – Mobile" width="320"> <img src="screenshots/screenshot_mobile_accessibility.png" alt="Universal Reversi – Mobile Accessibility" width="320">
 
 ## Features
