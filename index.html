@@ -100,6 +100,9 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 .dot { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; }
 .dot.b { background: radial-gradient(circle at 36% 32%, #666, #111); box-shadow: 1px 1px 3px var(--shadow); }
 .dot.w { background: radial-gradient(circle at 36% 32%, #fff, #ccc); box-shadow: 1px 1px 3px var(--shadow); }
+.dot.a11y { display:flex; align-items:center; justify-content:center; font-weight:900; font-size:.85rem; }
+.dot.b.a11y { background:#000; box-shadow:0 0 0 2px #fff; color:#fff; }
+.dot.w.a11y { background:#fff; box-shadow:0 0 0 2px #000; color:#000; }
 #turn {
   font-weight: 700;
   font-size: 1.25rem;
@@ -192,6 +195,10 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 .pc.w { background: radial-gradient(circle at 36% 32%, #fff, #c8c8c8); }
 .pc.new  { animation: pop  .22s ease-out; }
 .pc.flip { animation: flip .32s ease-in-out; }
+/* Accessibility mode — high-contrast symbols */
+.pc.a11y { display:flex; align-items:center; justify-content:center; font-weight:900; line-height:1; }
+.pc.b.a11y { background:#000; box-shadow:0 0 0 2px #fff, 2px 3px 8px var(--shadow); color:#fff; }
+.pc.w.a11y { background:#fff; box-shadow:0 0 0 2px #000, 2px 3px 8px var(--shadow); color:#000; }
 
 @keyframes pop {
   0%   { transform: scale(.25) rotate(-90deg); }
@@ -377,6 +384,13 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
       <input type="range" id="aidelay" min="100" max="1000" step="100" value="500">
       <span id="aiDelayLbl" style="text-align:center; font-size:.85rem; color:var(--accent);">0.5s</span>
     </div>
+    <div class="cg" style="justify-content:space-between;">
+      <span>Accessibility</span>
+      <label class="togwrap">
+        <input type="checkbox" id="a11y">
+        <div class="track"></div>
+      </label>
+    </div>
     <button class="btn" id="ng">Restart Game</button>
   </div>
 </div>
@@ -386,7 +400,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 const DIRS = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
 
 /* ─── State ─── */
-let board, cur, size, wH, wV, aiMode, aiDiff, aiDelay, over, lastMove, lastFlips, aiTimer, aiThinking;
+let board, cur, size, wH, wV, aiMode, aiDiff, aiDelay, over, lastMove, lastFlips, aiTimer, aiThinking, accessibility;
 let viewR = 0, viewC = 0;
 
 /* ─── Player helpers ─── */
@@ -547,6 +561,11 @@ function render(passNote, noAnim) {
         if (!noAnim && key === lmKey) pc.classList.add('new');
         else if (!noAnim && fSet.has(key)) pc.classList.add('flip');
         pc.style.width = pc.style.height = Math.round(s * 0.8) + 'px';
+        if (accessibility) {
+          pc.classList.add('a11y');
+          pc.textContent = v === 1 ? '●' : '○';
+          pc.style.fontSize = Math.round(s * 0.42) + 'px';
+        }
         cell.appendChild(pc);
         if (key === lmKey) cell.classList.add('last-move');
       } else if (mSet.has(key)) {
@@ -565,6 +584,12 @@ function render(passNote, noAnim) {
   document.getElementById('wlbl').textContent = playerLabel(2);
   document.getElementById('sb').classList.toggle('active', cur === 1 && !over);
   document.getElementById('sw').classList.toggle('active', cur === 2 && !over);
+  const dotB = document.querySelector('#sb .dot');
+  const dotW = document.querySelector('#sw .dot');
+  dotB.classList.toggle('a11y', !!accessibility);
+  dotW.classList.toggle('a11y', !!accessibility);
+  dotB.textContent = accessibility ? '●' : '';
+  dotW.textContent = accessibility ? '○' : '';
 
   const turnEl = document.getElementById('turn');
   const msgEl  = document.getElementById('msg');
@@ -638,11 +663,12 @@ document.getElementById('aidelay').addEventListener('input', function () {
   document.getElementById('aiDelayLbl').textContent = (aiDelay / 1000).toFixed(1) + 's';
 });
 document.getElementById('ng').addEventListener('click', () => {
-  size    = +document.getElementById('sz').value;
-  wH = wV = true;
-  aiMode  = document.getElementById('mode').value;
-  aiDiff  = document.getElementById('diff').value;
-  aiDelay = +document.getElementById('aidelay').value;
+  size          = +document.getElementById('sz').value;
+  wH = wV       = true;
+  aiMode        = document.getElementById('mode').value;
+  aiDiff        = document.getElementById('diff').value;
+  aiDelay       = +document.getElementById('aidelay').value;
+  accessibility = document.getElementById('a11y').checked;
   init(); render(); scheduleAI();
 });
 
@@ -663,7 +689,7 @@ document.addEventListener('keydown', e => {
 window.addEventListener('resize', () => render(null, true));
 
 /* ─── Start ─── */
-size = 8; wH = wV = true; aiMode = 'hvai'; aiDiff = 'medium'; aiDelay = 500;
+size = 8; wH = wV = true; aiMode = 'hvai'; aiDiff = 'medium'; aiDelay = 500; accessibility = false;
 init(); render(); scheduleAI();
 </script>
 

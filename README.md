@@ -9,15 +9,18 @@
 ### Desktop
 ![Universal Reversi – Desktop](screenshots/screenshot_desktop.png)
 
+### Desktop – Accessibility Mode
+![Universal Reversi – Desktop Accessibility](screenshots/screenshot_desktop_accessibility.png)
+
 ### Mobile
-<img src="screenshots/screenshot_mobile.png" alt="Universal Reversi – Mobile" width="320">
+<img src="screenshots/screenshot_mobile.png" alt="Universal Reversi – Mobile" width="320"> <img src="screenshots/screenshot_mobile_accessibility.png" alt="Universal Reversi – Mobile Accessibility" width="320">
 
 ## Features
 
-- **Configurable board size** — 4×4, 6×6, or 8×8 (default 8×8)
 - **Infinite board** — opposite edges connect seamlessly; no cell is an edge, no cell is special
-- **Four game modes** — 😊 Human vs 😊 Human · 😊 Human vs 🤖 AI · 🤖 AI vs 😊 Human · 🤖 AI vs 🤖 AI
-- **Who starts** — choose whether ⚫ Black or ⚪ White makes the first move
+- **Four player modes** — 😊 Human vs 😊 Human · 😊 Human vs 🤖 AI · 🤖 AI vs 😊 Human · 🤖 AI vs 🤖 AI
+- **Starting colour** — choose whether ⚫ Black or ⚪ White makes the first move
+- **Configurable board size** — 4×4, 6×6, or 8×8 (default 8×8)
 - **Five AI difficulty levels**
   | Level | Strategy |
   |---|---|
@@ -26,10 +29,13 @@
   | 😐 Medium | Minimax with α-β pruning, depth 1 |
   | ☹️ Hard | Minimax with α-β pruning, depth 2 |
   | 😈 Extra Hard | Minimax with α-β pruning, depth 3 |
-- **AI reaction delay** — slider from 0.1 to 1.0 seconds so you can follow the AI's moves; valid move hints are shown while the AI is thinking
+- **AI response delay** — slider from 0.1 s to 1.0 s so you can follow the AI's moves; valid move hints are shown while the AI is thinking
+- **Accessibility mode** — high-contrast ●/○ symbols replace gradient pieces for colourblind users
 - **Pan the view** — use ↑↓←→ or the on-screen d-pad to scroll around the infinite board
 - **Animations** — piece pop-in and flip effects
 - **Mobile-friendly** — responsive layout optimised for phones and tablets
+
+> All settings take effect after pressing **Restart Game**.
 
 ## How to Play
 
