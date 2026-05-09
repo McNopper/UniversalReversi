@@ -14,7 +14,7 @@
 
 ## Features
 
-- **Configurable board size** — 4×4 up to 16×16 (even sizes, default 8×8)
+- **Configurable board size** — 4×4, 6×6, or 8×8 (default 8×8)
 - **Infinite board** — opposite edges connect seamlessly; no cell is an edge, no cell is special
 - **Four game modes** — 😊 Human vs 😊 Human · 😊 Human vs 🤖 AI · 🤖 AI vs 😊 Human · 🤖 AI vs 🤖 AI
 - **Who starts** — choose whether ⚫ Black or ⚪ White makes the first move
