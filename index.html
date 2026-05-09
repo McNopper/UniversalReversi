@@ -40,9 +40,11 @@ h1 { font-size: 2.1rem; color: var(--accent); letter-spacing: 3px; font-weight: 
   gap: 16px;
   width: 180px;
   align-items: stretch;
+  color: #99aabb;
+  font-size: .82rem;
 }
-.cg { display: flex; align-items: center; gap: 8px; font-size: .93rem; }
-.cg span:first-child { flex: 1; }
+.cg { display: flex; align-items: center; gap: 8px; font-size: .82rem; }
+.cg span:first-child { flex: 1; color: var(--accent); font-weight: 700; }
 input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; margin-top: 4px; }
 #ctrl hr { border: none; border-top: 1px solid #243040; }
 
@@ -309,8 +311,6 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
         Opposite edges are connected — lines can wrap around. Use ↑↓←→ or the arrow buttons to pan the view.<br><br>
         <b>Pass</b><br>
         If you have no valid move, your turn is skipped.<br><br>
-        <b>Board size</b><br>
-        Change size &amp; press <em>Restart Game</em>.
       </div>
     </details>
   </div>
@@ -339,13 +339,10 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   </div>
 
   <div id="ctrl">
+    <div style="grid-column:1/-1; text-align:center; font-size:.9rem; font-weight:700; letter-spacing:1px; color:var(--accent);">SETTINGS</div>
+    <div class="settings-hint" style="font-size:.75rem; color:#4a6070; text-align:center; line-height:1.4;">Settings apply after<br><b>Restart Game</b></div>
     <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
-      <span>Board size</span>
-      <input type="range" id="sz" min="4" max="8" step="2" value="8">
-      <span id="szlbl" style="text-align:center; font-size:.85rem; color:var(--accent);">8 × 8</span>
-    </div>
-    <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
-      <span>Mode</span>
+      <span>Players</span>
       <select id="mode" style="background:var(--bg); color:var(--text); border:1px solid #2a3a4a; border-radius:7px; padding:5px 8px; font-size:.9rem; cursor:pointer;">
         <option value="hvh">😊 Human vs 😊 Human</option>
         <option value="hvai" selected>😊 Human vs 🤖 AI</option>
@@ -354,11 +351,16 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
       </select>
     </div>
     <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
-      <span>Starts</span>
+      <span>Starting colour</span>
       <select id="starts" style="background:var(--bg); color:var(--text); border:1px solid #2a3a4a; border-radius:7px; padding:5px 8px; font-size:.9rem; cursor:pointer;">
         <option value="1">⚫ Black</option>
         <option value="2">⚪ White</option>
       </select>
+    </div>
+    <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
+      <span>Board size</span>
+      <input type="range" id="sz" min="4" max="8" step="2" value="8">
+      <span id="szlbl" style="text-align:center; font-size:.85rem; color:var(--accent);">8 × 8</span>
     </div>
     <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
       <span>AI difficulty</span>
@@ -371,12 +373,11 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
       </select>
     </div>
     <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
-      <span>AI delay</span>
+      <span>AI response delay</span>
       <input type="range" id="aidelay" min="100" max="1000" step="100" value="500">
       <span id="aiDelayLbl" style="text-align:center; font-size:.85rem; color:var(--accent);">0.5s</span>
     </div>
     <button class="btn" id="ng">Restart Game</button>
-    <div class="settings-hint" style="font-size:.75rem; color:#4a6070; text-align:center; line-height:1.4;">Settings apply after<br><b>Restart Game</b></div>
   </div>
 </div>
 
