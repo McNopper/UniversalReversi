@@ -488,8 +488,8 @@ function aiChooseMove(p) {
     for (const [r, c] of moves) { const n = calcFlips(r,c,p).length; if (n > bn) { bn = n; best = [r,c]; } }
     return best;
   }
-  // medium: depth 3 / hard: depth 4 / extrahard: depth 5
-  const depth = aiDiff === 'extrahard' ? 5 : aiDiff === 'hard' ? 4 : 3;
+  // medium: depth 1 / hard: depth 2 / extrahard: depth 3
+  const depth = aiDiff === 'extrahard' ? 3 : aiDiff === 'hard' ? 2 : 1;
   let best = moves[0], bn = -Infinity;
   for (const [r, c] of moves) {
     const val = minimax(applyMoveOn(board,r,c,p), depth, -Infinity, Infinity, false, p);

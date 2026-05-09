@@ -23,10 +23,10 @@
   |---|---|
   | 😇 Very Easy | Random move |
   | 😊 Easy | Greedy — maximise immediate flips |
-  | 😐 Medium | Minimax with α-β pruning, depth 3 |
-  | ☹️ Hard | Minimax with α-β pruning, depth 4 |
-  | 😈 Extra Hard | Minimax with α-β pruning, depth 5 |
-- **AI reaction delay** — slider from 0.1 to 1.0 seconds so you can follow the AI's moves
+  | 😐 Medium | Minimax with α-β pruning, depth 1 |
+  | ☹️ Hard | Minimax with α-β pruning, depth 2 |
+  | 😈 Extra Hard | Minimax with α-β pruning, depth 3 |
+- **AI reaction delay** — slider from 0.1 to 1.0 seconds so you can follow the AI's moves; valid move hints are shown while the AI is thinking
 - **Pan the view** — use ↑↓←→ or the on-screen d-pad to scroll around the infinite board
 - **Animations** — piece pop-in and flip effects
 - **Mobile-friendly** — responsive layout optimised for phones and tablets
