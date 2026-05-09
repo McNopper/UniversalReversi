@@ -3,10 +3,10 @@
 A single-file HTML + JavaScript implementation of [Reversi](https://en.wikipedia.org/wiki/Reversi) with a toroidal (infinite) playing field.
 
 ### Desktop
-![Universal Reversi – Desktop](screenshot_desktop.png)
+![Universal Reversi – Desktop](screenshots/screenshot_desktop.png)
 
 ### Mobile
-![Universal Reversi – Mobile](screenshot_mobile.png)
+![Universal Reversi – Mobile](screenshots/screenshot_mobile.png)
 
 ## Features
 
