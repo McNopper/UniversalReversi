@@ -106,6 +106,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   border-radius: 9px;
   border: 2px solid transparent;
   transition: border-color .3s;
+  min-width: 110px;
 }
 .sbox.active { border-color: var(--accent); }
 .dot { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; }
@@ -113,11 +114,14 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 .dot.w { background: radial-gradient(circle at 36% 32%, #fff, #ccc); box-shadow: 1px 1px 3px var(--shadow); }
 .dot.b.a11y { background:#000; box-shadow:0 0 0 4px #fff; }
 .dot.w.a11y { background:#fff; box-shadow:0 0 0 4px #000; }
+.scount { display: inline-block; min-width: 2ch; text-align: right; }
 #turn {
   font-weight: 700;
   font-size: 1.25rem;
   color: var(--accent);
   letter-spacing: 1px;
+  white-space: nowrap;
+  min-height: 1.5em;
 }
 @keyframes thinking-pulse {
   0%, 100% { opacity: 1; }
@@ -267,6 +271,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 /* emoji label in score box */
 .plbl { font-size: 1rem; line-height: 1; }
 .reslbl { font-size: 1rem; line-height: 1; display: inline-block; min-width: 1.2em; text-align: center; }
+.emojigrp { display: inline-flex; align-items: center; gap: 0; }
 
 /* ── Mobile ── */
 @media (max-width: 640px) {
@@ -343,8 +348,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
     <div id="status-panel">
       <div id="turn">Black's Turn</div>
       <div id="score">
-        <div class="sbox active" id="sb"><div class="dot b"></div><span id="blbl" class="plbl">😊</span><span id="bres" class="reslbl"></span><span id="bc">2</span></div>
-        <div class="sbox" id="sw"><div class="dot w"></div><span id="wlbl" class="plbl">😊</span><span id="wres" class="reslbl"></span><span id="wc">2</span></div>
+        <div class="sbox active" id="sb"><div class="dot b"></div><span class="emojigrp"><span id="bres" class="reslbl"></span><span id="blbl" class="plbl">😊</span></span><span id="bc" class="scount">2</span></div>
+        <div class="sbox" id="sw"><div class="dot w"></div><span class="emojigrp"><span id="wres" class="reslbl"></span><span id="wlbl" class="plbl">😊</span></span><span id="wc" class="scount">2</span></div>
       </div>
     </div>
     <div id="bar">
