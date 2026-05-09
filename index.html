@@ -278,6 +278,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
     gap: 10px 14px;
   }
   #ctrl .btn { grid-column: 1 / -1; padding: 10px; font-size: 1rem; }
+  #ctrl .settings-hint { grid-column: 1 / -1; }
 
   /* bigger D-pad touch targets */
   .dbtn { width: 48px; height: 48px; font-size: 1.3rem; }
@@ -285,6 +286,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 
   #turn { font-size: 1.05rem; }
   #msg  { font-size: .95rem; }
+  footer { margin-top: 12px; }
 }
 </style>
 </head>
@@ -374,6 +376,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
       <span id="aiDelayLbl" style="text-align:center; font-size:.85rem; color:var(--accent);">0.5s</span>
     </div>
     <button class="btn" id="ng">Restart Game</button>
+    <div class="settings-hint" style="font-size:.75rem; color:#4a6070; text-align:center; line-height:1.4;">Settings apply after<br><b>Restart Game</b></div>
   </div>
 </div>
 
