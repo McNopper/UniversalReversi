@@ -25,7 +25,14 @@
 ## Features
 
 - **Infinite board** — the board tiles infinitely in all directions; pan freely with ↑↓←→ or the on-screen d-pad
-- **Four player modes** — 😊 Human vs 😊 Human · 😊 Human vs 🤖 AI · 🤖 AI vs 😊 Human · 🤖 AI vs 🤖 AI
+- **Four player modes**
+
+  | Mode | Description |
+  |---|---|
+  | 😊 Human vs 😊 Human | Two human players |
+  | 😊 Human vs 🤖 AI | Human plays Black, AI plays White |
+  | 🤖 AI vs 😊 Human | AI plays Black, Human plays White |
+  | 🤖 AI vs 🤖 AI | AI plays both sides |
 - **Starting colour** — choose whether ⚫ Black or ⚪ White makes the first move
 - **Configurable board size** — 4×4, 6×6, or 8×8 (default 8×8)
 - **Five AI difficulty levels**
