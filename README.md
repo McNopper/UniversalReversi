@@ -1,4 +1,4 @@
-# ♞ Universal Reversi
+# ♞ Universal Reversi Game
 
 *💡 by [Norbert Nopper](https://nopper.tv)* - an implementation of Reversi with an infinite playing field.
 
