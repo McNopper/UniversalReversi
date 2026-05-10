@@ -24,7 +24,7 @@
 
 ## Features
 
-- **Infinite board** — opposite edges connect seamlessly; no cell is an edge, no cell is special
+- **Infinite board** — the board tiles infinitely in all directions; pan freely with ↑↓←→ or the on-screen d-pad
 - **Four player modes** — 😊 Human vs 😊 Human · 😊 Human vs 🤖 AI · 🤖 AI vs 😊 Human · 🤖 AI vs 🤖 AI
 - **Starting colour** — choose whether ⚫ Black or ⚪ White makes the first move
 - **Configurable board size** — 4×4, 6×6, or 8×8 (default 8×8)
@@ -37,8 +37,8 @@
   | ☹️ Hard | Minimax with α-β pruning, depth 2 |
   | 😈 Extra Hard | Minimax with α-β pruning, depth 3 |
 - **AI response delay** — slider from 0.1 s to 1.0 s so you can follow the AI's moves; valid move hints are shown while the AI is thinking
-- **Accessibility mode** — high-contrast ●/○ symbols replace gradient pieces for colourblind users
 - **Pan the view** — use ↑↓←→ or the on-screen d-pad to scroll around the infinite board
+- **Accessibility mode** — high-contrast ●/○ symbols replace gradient pieces for colourblind users
 - **Animations** — piece pop-in and flip effects
 - **Mobile-friendly** — responsive layout optimised for phones and tablets
 
@@ -58,7 +58,7 @@ Download or clone the repository and open `index.html` directly in any modern br
 
 Standard Reversi rules apply: place a piece to flank one or more opponent pieces in any of the 8 directions; flanked pieces flip to your colour. The player with the most pieces when neither side can move wins.
 
-Because the board is infinite, flanking lines can cross any edge and wrap around, opening up strategies impossible on a bounded board.
+Because the board is infinite, pieces and flanking lines can extend freely in any direction across the ever-expanding playing field, opening up strategies impossible on a bounded board.
 
 ## References
 

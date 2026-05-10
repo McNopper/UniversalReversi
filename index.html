@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Universal Reversi Game</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♞</text></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48dGV4dCB5PScuOWVtJyBmb250LXNpemU9JzkwJz7imZ48L3RleHQ+PC9zdmc+">
 <style>
 :root {
   --bg: #0e1a2b;
@@ -356,8 +356,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
     <div id="status-panel">
       <div id="turn">Black's Turn</div>
       <div id="score">
-        <div class="sbox active" id="sb"><span class="emojigrp"><div class="dot b"></div><span id="blbl" class="plbl">😊</span></span><span id="bc" class="scount">2</span></div>
-        <div class="sbox" id="sw"><span class="emojigrp"><div class="dot w"></div><span id="wlbl" class="plbl">😊</span></span><span id="wc" class="scount">2</span></div>
+        <div class="sbox active" id="sb"><span class="emojigrp"><span class="dot b"></span><span id="blbl" class="plbl">😊</span></span><span id="bc" class="scount">2</span></div>
+        <div class="sbox" id="sw"><span class="emojigrp"><span class="dot w"></span><span id="wlbl" class="plbl">😊</span></span><span id="wc" class="scount">2</span></div>
       </div>
     </div>
     <div id="bar">
@@ -422,7 +422,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
       <span>Accessibility</span>
       <label class="togwrap">
         <input type="checkbox" id="a11y">
-        <div class="track"></div>
+        <span class="track"></span>
       </label>
     </div>
     <div class="settings-hint" style="font-size:.95rem; color:#99aabb; text-align:center; line-height:1.4;">Press <b>Restart Game</b> button to apply game settings.</div>
