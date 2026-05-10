@@ -246,6 +246,9 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 .pc.w { background: radial-gradient(circle at 36% 32%, #fff, #c8c8c8); }
 .pc.new  { animation: pop  .22s ease-out; }
 .pc.flip { animation: flip .32s ease-in-out; }
+body.no-anim .pc.new,
+body.no-anim .pc.flip { animation: none; }
+body.no-anim .thinking { animation: none; }
 /* Accessibility mode — high-contrast fill + outline ring */
 .pc.b.a11y { background:#000; box-shadow:0 0 0 4px #fff, 2px 3px 8px var(--shadow); }
 .pc.w.a11y { background:#fff; box-shadow:0 0 0 4px #000, 2px 3px 8px var(--shadow); }
@@ -458,6 +461,13 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
       <span>Allowed moves</span>
       <label class="togwrap">
         <input type="checkbox" id="hints" checked>
+        <span class="track"></span>
+      </label>
+    </div>
+    <div class="cg" style="justify-content:space-between;">
+      <span>Animations</span>
+      <label class="togwrap">
+        <input type="checkbox" id="noanim" checked>
         <span class="track"></span>
       </label>
     </div>
@@ -754,6 +764,9 @@ document.getElementById('aidelay').addEventListener('input', function () {
 document.getElementById('hints').addEventListener('change', e => {
   showHints = e.target.checked;
   document.getElementById('board').classList.toggle('hide-hints', !showHints);
+});
+document.getElementById('noanim').addEventListener('change', e => {
+  document.body.classList.toggle('no-anim', !e.target.checked);
 });
 
 document.getElementById('ng').addEventListener('click', () => {
