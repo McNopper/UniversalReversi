@@ -9,10 +9,13 @@
 :root {
   --bg: #0e1a2b;
   --panel: #162032;
+  --text: #c8d8e8;
+  --shadow: #000a;
+  --accent: #5dd9c0;
+  --cta: #f5c842;
   --green-dk: #1a5c33;
   --green: #2d8653;
   --green-h: #45b872;
-  --accent: #5dd9c0;
   --text: #dce8f8;
   --shadow: rgba(0,0,0,.55);
 }
@@ -118,10 +121,11 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 #turn {
   font-weight: 700;
   font-size: 1.25rem;
-  color: var(--accent);
+  color: var(--cta);
   letter-spacing: 1px;
   white-space: nowrap;
   min-height: 1.5em;
+  text-align: center;
 }
 @keyframes thinking-pulse {
   0%, 100% { opacity: 1; }
@@ -236,6 +240,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   font-weight: 700;
   color: var(--accent);
   text-align: center;
+  min-height: 1.5em;
+  white-space: nowrap;
 }
 
 /* Board + guide layout */
