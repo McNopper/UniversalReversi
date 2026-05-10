@@ -125,7 +125,18 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   letter-spacing: 1px;
   white-space: nowrap;
   min-height: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#turn-icon {
+  display: inline-block;
+  width: 1.6em;
   text-align: center;
+  flex-shrink: 0;
+}
+#turn-text {
+  min-width: 8em;
 }
 @keyframes thinking-pulse {
   0%, 100% { opacity: 1; }
@@ -354,7 +365,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 
   <div id="board-area">
     <div id="status-panel">
-      <div id="turn">Black's Turn</div>
+      <div id="turn"><span id="turn-icon">⚫</span><span id="turn-text">Black's Turn</span></div>
       <div id="score">
         <div class="sbox active" id="sb"><span class="emojigrp"><span class="dot b"></span><span id="blbl" class="plbl">😊</span></span><span id="bc" class="scount">2</span></div>
         <div class="sbox" id="sw"><span class="emojigrp"><span class="dot w"></span><span id="wlbl" class="plbl">😊</span></span><span id="wc" class="scount">2</span></div>
@@ -621,7 +632,8 @@ function render(passNote, noAnim) {
   dotB.textContent = '';
   dotW.textContent = '';
 
-  const turnEl = document.getElementById('turn');
+  const turnIcon = document.getElementById('turn-icon');
+  const turnText = document.getElementById('turn-text');
   const msgEl  = document.getElementById('msg');
   const blbl   = document.getElementById('blbl');
   const wlbl   = document.getElementById('wlbl');
@@ -629,10 +641,12 @@ function render(passNote, noAnim) {
   wlbl.textContent = playerLabel(2);
   if (over) {
     const win = b > w ? 'Black' : w > b ? 'White' : null;
-    turnEl.textContent = win ? `🎉 ${win} Wins!` : "🤝 It's a Tie!";
+    turnIcon.textContent = win ? '🎉' : '🤝';
+    turnText.textContent = win ? ` ${win} Wins!` : " It's a Tie!";
     msgEl.textContent  = '';
   } else {
-    turnEl.textContent = `${playerLabel(cur)} ${cur === 1 ? 'Black' : 'White'}'s Turn`;
+    turnIcon.textContent = playerLabel(cur);
+    turnText.textContent = ` ${cur === 1 ? 'Black' : 'White'}'s Turn`;
     msgEl.textContent  = passNote || '';
   }
 
@@ -653,7 +667,8 @@ function shiftView(dr, dc) {
 function scheduleAI() {
   if (!over && isAI(cur)) {
     aiThinking = true;
-    document.getElementById('turn').innerHTML = `🤖 <span class="thinking">Thinking…</span>`;
+    document.getElementById('turn-icon').textContent = '🤖';
+    document.getElementById('turn-text').innerHTML = ` <span class="thinking">Thinking…</span>`;
     render(null, true);
     aiTimer = setTimeout(aiPlay, aiDelay);
   }
