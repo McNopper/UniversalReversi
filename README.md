@@ -1,8 +1,8 @@
 # ♞ Universal Reversi Game
 
-*💡 by [Norbert Nopper](https://nopper.tv)* - an implementation of Reversi with an infinite playing field.
+💡 by [Norbert Nopper](https://nopper.tv) - an implementation of Reversi with an infinite playing field.
 
-*Dedicated to my children and wife — with Love ❤️ and Wonder 🌟*
+Dedicated to my children and wife — with Love ❤️ and Wonder 🌟
 
 ## Digital Devices
 
