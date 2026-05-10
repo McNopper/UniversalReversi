@@ -436,7 +436,7 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
     </div>
     <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
       <span>Board size</span>
-      <input type="range" id="sz" min="4" max="8" step="2" value="8">
+      <input type="range" id="sz" min="6" max="10" step="2" value="8">
       <span id="szlbl" style="text-align:center; font-size:.85rem; color:var(--accent);">8 × 8</span>
     </div>
     <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
@@ -451,8 +451,8 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
     </div>
     <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
       <span>AI response delay</span>
-      <input type="range" id="aidelay" min="20" max="2000" step="20" value="500">
-      <span id="aiDelayLbl" style="text-align:center; font-size:.85rem; color:var(--accent);">0.5s</span>
+      <input type="range" id="aidelay" min="20" max="2000" step="20" value="1000">
+      <span id="aiDelayLbl" style="text-align:center; font-size:.85rem; color:var(--accent);">1.0s</span>
     </div>
     <div class="cg" style="justify-content:space-between;">
       <span>Allowed moves</span>
@@ -609,7 +609,8 @@ function init() {
 /* ─── Render ─── */
 function cellSize() {
   const avail = Math.min(window.innerWidth - 48, 520);
-  return Math.max(28, Math.min(62, Math.floor(avail / size)));
+  const gaps  = 2 * (size - 1);
+  return Math.max(28, Math.min(85, Math.floor((avail - gaps) / size)));
 }
 
 function render(passNote, noAnim) {
@@ -802,7 +803,7 @@ function alignPanels() {
 }
 
 /* ─── Start ─── */
-size = 8; wH = wV = true; aiMode = 'hvai'; aiDiff = 'medium'; aiDelay = 500; accessibility = false; showHints = true;
+size = 8; wH = wV = true; aiMode = 'hvai'; aiDiff = 'medium'; aiDelay = 1000; accessibility = false; showHints = true;
 init(); render(); scheduleAI(); alignPanels();
 </script>
 

@@ -34,7 +34,7 @@
   | 🤖 AI vs 😊 Human | AI plays Black, Human plays White |
   | 🤖 AI vs 🤖 AI | AI plays both sides |
 - **Starting colour** — choose whether ⚫ Black or ⚪ White makes the first move
-- **Configurable board size** — 4×4, 6×6, or 8×8 (default 8×8)
+- **Configurable board size** — 6×6, 8×8, or 10×10 (default 8×8)
 - **Five AI difficulty levels**
   | Level | Strategy |
   |---|---|
