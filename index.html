@@ -31,7 +31,7 @@ body {
   padding: 12px 12px;
   gap: 8px;
 }
-h1 { font-size: 0.75rem; color: var(--accent); letter-spacing: 3px; font-weight: 900; text-align: center; width: 100%; }
+h1 { font-size: 0.75rem; color: var(--accent); letter-spacing: 3px; font-weight: 900; text-align: center; width: 100%; margin: 0; }
 
 /* Controls — right panel */
 #ctrl {
@@ -90,15 +90,23 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 .btn:hover { filter: brightness(1.15); }
 
 #score { display: flex; gap: 8px; }
+#title-panel {
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 6px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 #status-panel {
   background: var(--panel);
   border-radius: 10px;
-  padding: 12px 18px;
+  padding: 6px 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
 }
 .sbox {
   display: flex;
@@ -344,8 +352,6 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 </head>
 <body>
 
-<h1>♞ UNIVERSAL REVERSI GAME</h1>
-
 <div id="play">
   <div id="info">
     <details open>
@@ -366,6 +372,9 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   </div>
 
   <div id="board-area">
+    <div id="title-panel">
+      <h1>♞ UNIVERSAL REVERSI GAME</h1>
+    </div>
     <div id="status-panel">
       <div id="turn"><span id="turn-icon">⚫</span><span id="turn-text">Black's Turn</span></div>
       <div id="score">
