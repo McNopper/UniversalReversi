@@ -362,15 +362,21 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
       <summary>HOW TO PLAY</summary>
       <div class="info-body">
         <b>Objective</b><br>
-        Have the most pieces when neither player can move.<br><br>
+        Most pieces wins when neither player can move.<br><br>
+        <b>Start</b><br>
+        4 pieces in centre (⚫⚪ diagonally).<br><br>
         <b>Placing</b><br>
-        Click a highlighted cell to place your piece. You must flank at least one opponent piece in any direction.<br><br>
+        Click a highlighted cell — must flank one or more opponent pieces.<br><br>
+        <b>Valid moves</b><br>
+        Highlighted cells are legal moves on your turn.<br><br>
         <b>Flanking</b><br>
-        All opponent pieces between your new piece and another of yours (in a straight line) flip to your colour.<br><br>
+        Opponent pieces between yours (in a line) flip.<br><br>
         <b>Infinite board</b><br>
-        The board tiles infinitely in all directions. Use ↑↓←→ or the arrow buttons to pan the view.<br><br>
+        Tiles in all directions. Use ↑↓←→ to pan.<br><br>
         <b>Pass</b><br>
-        If you have no valid move, your turn is skipped.<br><br>
+        No valid move, then the turn is skipped.<br><br>
+        <b>End of Game</b><br>
+        Most pieces wins. Equal pieces are a tie.<br><br>
       </div>
     </details>
   </div>
@@ -761,13 +767,13 @@ function alignPanels() {
   requestAnimationFrame(() => {
     const info = document.getElementById('info');
     const ctrl = document.getElementById('ctrl');
-    const bar  = document.getElementById('bar');
+    const sp   = document.getElementById('status-panel');
     const area = document.getElementById('board-area');
     const areaTop = area.getBoundingClientRect().top;
     const infoTop = info.getBoundingClientRect().top;
     if (Math.abs(infoTop - areaTop) < 10) {
-      // Desktop: panels are beside the board — align text top with board top
-      const offset = Math.max(0, bar.getBoundingClientRect().top - areaTop);
+      // Desktop: panels are beside the board — align text top with status panel top
+      const offset = Math.max(0, sp.getBoundingClientRect().top - areaTop);
       info.style.paddingTop = offset + 'px';
       ctrl.style.paddingTop = offset + 'px';
     } else {
