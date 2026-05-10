@@ -49,7 +49,11 @@ h1 { font-size: 0.75rem; color: var(--accent); letter-spacing: 3px; font-weight:
 }
 .cg { display: flex; align-items: center; gap: 8px; font-size: .82rem; }
 .cg span:first-child { flex: 1; color: var(--accent); font-weight: 700; }
-input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; margin-top: 4px; }
+input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; margin-top: 4px; -webkit-appearance: none; appearance: none; background: transparent; }
+input[type=range]::-webkit-slider-runnable-track { height: 6px; background: #3a3a4a; border-radius: 3px; }
+input[type=range]::-moz-range-track { height: 6px; background: #3a3a4a; border-radius: 3px; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #ccc; border: none; margin-top: -8px; cursor: pointer; }
+input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #ccc; border: none; cursor: pointer; }
 #ctrl hr { border: none; border-top: 1px solid #243040; }
 
 /* Toggle switch */
@@ -228,6 +232,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   border-radius: 50%;
   background: rgba(255,255,255,.33);
 }
+#board.hide-hints .cell.can::after { display: none; }
 /* Last-move ring */
 .cell.last-move { outline: 2px solid rgba(255,255,200,.65); outline-offset: -2px; }
 
@@ -372,7 +377,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
         <b>Flanking</b><br>
         Opponent pieces between yours (in a line) flip.<br><br>
         <b>Infinite board</b><br>
-        Tiles in all directions. Use ↑↓←→ to pan.<br><br>
+        Tiles in all directions. Use ↑↓←→ keys or the arrow buttons to pan.<br><br>
         <b>Pass</b><br>
         No valid move, then the turn is skipped.<br><br>
         <b>End of Game</b><br>
@@ -450,6 +455,13 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
       <span id="aiDelayLbl" style="text-align:center; font-size:.85rem; color:var(--accent);">0.5s</span>
     </div>
     <div class="cg" style="justify-content:space-between;">
+      <span>Allowed moves</span>
+      <label class="togwrap">
+        <input type="checkbox" id="hints" checked>
+        <span class="track"></span>
+      </label>
+    </div>
+    <div class="cg" style="justify-content:space-between;">
       <span>Accessibility</span>
       <label class="togwrap">
         <input type="checkbox" id="a11y">
@@ -465,7 +477,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 const DIRS = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
 
 /* ─── State ─── */
-let board, cur, size, wH, wV, aiMode, aiDiff, aiDelay, over, lastMove, lastFlips, aiTimer, aiThinking, accessibility;
+let board, cur, size, wH, wV, aiMode, aiDiff, aiDelay, over, lastMove, lastFlips, aiTimer, aiThinking, accessibility, showHints;
 let viewR = 0, viewC = 0;
 
 /* ─── Player helpers ─── */
@@ -605,6 +617,7 @@ function render(passNote, noAnim) {
   const s = cellSize();
   boardEl.style.gridTemplateColumns = `repeat(${size}, ${s}px)`;
   boardEl.style.gridTemplateRows    = `repeat(${size}, ${s}px)`;
+  boardEl.classList.toggle('hide-hints', !showHints);
 
   const moves = over || (isAI(cur) && !aiThinking) ? [] : validMoves(cur);
   const mSet  = new Set(moves.map(([r, c]) => r * size + c));
@@ -737,6 +750,11 @@ document.getElementById('aidelay').addEventListener('input', function () {
   const s = +this.value / 1000;
   document.getElementById('aiDelayLbl').textContent = (s < 0.1 ? s.toFixed(2) : s.toFixed(1)) + 's';
 });
+document.getElementById('hints').addEventListener('change', e => {
+  showHints = e.target.checked;
+  document.getElementById('board').classList.toggle('hide-hints', !showHints);
+});
+
 document.getElementById('ng').addEventListener('click', () => {
   size          = +document.getElementById('sz').value;
   wH = wV       = true;
@@ -784,7 +802,7 @@ function alignPanels() {
 }
 
 /* ─── Start ─── */
-size = 8; wH = wV = true; aiMode = 'hvai'; aiDiff = 'medium'; aiDelay = 500; accessibility = false;
+size = 8; wH = wV = true; aiMode = 'hvai'; aiDiff = 'medium'; aiDelay = 500; accessibility = false; showHints = true;
 init(); render(); scheduleAI(); alignPanels();
 </script>
 
