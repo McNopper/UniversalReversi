@@ -261,9 +261,10 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
   font-weight: 700;
   color: var(--accent);
   text-align: center;
-  min-height: 1.5em;
+  min-height: 0;
   white-space: nowrap;
 }
+#msg:empty { display: none; }
 
 /* Board + guide layout */
 #play {
