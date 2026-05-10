@@ -44,13 +44,12 @@ Dedicated to my children and wife — with Love ❤️ and Wonder 🌟
   | ☹️ Hard | Minimax with α-β pruning, depth 2 |
   | 😈 Extra Hard | Minimax with α-β pruning, depth 3 |
 - **AI response delay** — slider from 0.02 s to 2.0 s so you can follow the AI's moves; valid move hints are shown while the AI is thinking
-- **Pan the view** — use ↑↓←→ or the on-screen d-pad to scroll around the infinite board
 - **Allowed moves** — toggle the on-board hint dots that mark legal moves on your turn (on by default)
+- **Animations** — piece pop-in and flip effects (on by default)
 - **Accessibility mode** — high-contrast ●/○ symbols replace gradient pieces for colourblind users
-- **Animations** — piece pop-in and flip effects
 - **Mobile-friendly** — responsive layout optimised for phones and tablets
 
-> All settings take effect after pressing **Restart Game**.
+> All settings take effect after pressing **Reset Game**.
 
 ## How to Play
 

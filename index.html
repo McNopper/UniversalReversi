@@ -417,7 +417,8 @@ body.no-anim .thinking { animation: none; }
   </div>
 
   <div id="ctrl">
-    <div style="grid-column:1/-1; text-align:center; font-size:.9rem; font-weight:700; letter-spacing:1px; color:var(--accent);">SETTINGS</div>
+    <div style="grid-column:1/-1; text-align:center; font-size:.9rem; font-weight:700; letter-spacing:1px; color:var(--accent);">GAME SETTINGS</div>
+    <div style="font-size:.7rem; color:#556677; text-transform:uppercase; letter-spacing:.5px;">Changes apply pressing <b>Reset Game</b></div>
     <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
       <span>Players</span>
       <select id="mode" style="background:var(--bg); color:var(--text); border:1px solid #2a3a4a; border-radius:7px; padding:5px 8px; font-size:.9rem; cursor:pointer;">
@@ -449,6 +450,9 @@ body.no-anim .thinking { animation: none; }
         <option value="extrahard">😈 Extra Hard</option>
       </select>
     </div>
+    <hr>
+    <div style="text-align:center; font-size:.9rem; font-weight:700; letter-spacing:1px; color:var(--accent);">RUNTIME SETTINGS</div>
+    <div style="font-size:.7rem; color:#556677; text-transform:uppercase; letter-spacing:.5px;">Changes apply instantly</div>
     <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
       <span>AI response delay</span>
       <input type="range" id="aidelay" min="20" max="2000" step="20" value="1000">
@@ -765,6 +769,10 @@ document.getElementById('hints').addEventListener('change', e => {
 document.getElementById('noanim').addEventListener('change', e => {
   document.body.classList.toggle('no-anim', !e.target.checked);
 });
+document.getElementById('a11y').addEventListener('change', e => {
+  accessibility = e.target.checked;
+  render();
+});
 
 document.getElementById('ng').addEventListener('click', () => {
   size          = +document.getElementById('sz').value;
@@ -800,32 +808,13 @@ function alignPanels() {
     const area = document.getElementById('board-area');
     const areaTop = area.getBoundingClientRect().top;
     const infoTop = info.getBoundingClientRect().top;
-    const leftRows  = info.querySelectorAll('.hp-row');
-    const rightRows = ctrl.querySelectorAll('.cg');
     if (Math.abs(infoTop - areaTop) < 10) {
       const offset = Math.max(0, sp.getBoundingClientRect().top - areaTop);
       info.style.paddingTop = offset + 'px';
       ctrl.style.paddingTop = offset + 'px';
-      // Reset, measure, and apply within the same frame to avoid flicker
-      leftRows.forEach(r => r.style.minHeight = '0px');
-      rightRows.forEach(r => r.style.minHeight = '0px');
-      const n = Math.min(leftRows.length, rightRows.length);
-      const heights = [];
-      for (let i = 0; i < n; i++) {
-        heights.push(Math.max(
-          leftRows[i].getBoundingClientRect().height,
-          rightRows[i].getBoundingClientRect().height
-        ));
-      }
-      for (let i = 0; i < n; i++) {
-        leftRows[i].style.minHeight  = heights[i] + 'px';
-        rightRows[i].style.minHeight = heights[i] + 'px';
-      }
     } else {
       info.style.paddingTop = '';
       ctrl.style.paddingTop = '';
-      leftRows.forEach(r => r.style.minHeight = '');
-      rightRows.forEach(r => r.style.minHeight = '');
     }
   });
 }
