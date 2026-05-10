@@ -121,10 +121,10 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
 #turn {
   font-weight: 700;
   font-size: 1.25rem;
-  color: var(--cta);
   letter-spacing: 1px;
   white-space: nowrap;
   min-height: 1.5em;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -426,7 +426,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; m
     </div>
     <div class="cg" style="flex-direction:column; align-items:stretch; gap:4px;">
       <span>AI response delay</span>
-      <input type="range" id="aidelay" min="100" max="1000" step="100" value="500">
+      <input type="range" id="aidelay" min="20" max="2000" step="20" value="500">
       <span id="aiDelayLbl" style="text-align:center; font-size:.85rem; color:var(--accent);">0.5s</span>
     </div>
     <div class="cg" style="justify-content:space-between;">
@@ -584,6 +584,7 @@ function render(passNote, noAnim) {
   const boardEl = document.getElementById('board');
   const s = cellSize();
   boardEl.style.gridTemplateColumns = `repeat(${size}, ${s}px)`;
+  boardEl.style.gridTemplateRows    = `repeat(${size}, ${s}px)`;
 
   const moves = over || (isAI(cur) && !aiThinking) ? [] : validMoves(cur);
   const mSet  = new Set(moves.map(([r, c]) => r * size + c));
@@ -639,12 +640,15 @@ function render(passNote, noAnim) {
   const wlbl   = document.getElementById('wlbl');
   blbl.textContent = playerLabel(1);
   wlbl.textContent = playerLabel(2);
+  const turnEl   = document.getElementById('turn');
   if (over) {
     const win = b > w ? 'Black' : w > b ? 'White' : null;
+    turnEl.style.color = 'var(--cta)';
     turnIcon.textContent = win ? '🎉' : '🤝';
     turnText.textContent = win ? ` ${win} Wins!` : " It's a Tie!";
     msgEl.textContent  = '';
   } else {
+    turnEl.style.color = cur === 1 ? '#555' : '#ccc';
     turnIcon.textContent = playerLabel(cur);
     turnText.textContent = ` ${cur === 1 ? 'Black' : 'White'}'s Turn`;
     msgEl.textContent  = passNote || '';
@@ -667,9 +671,11 @@ function shiftView(dr, dc) {
 function scheduleAI() {
   if (!over && isAI(cur)) {
     aiThinking = true;
+    render(null, true);
+    const turnEl = document.getElementById('turn');
+    turnEl.style.color = cur === 1 ? '#555' : '#ccc';
     document.getElementById('turn-icon').textContent = '🤖';
     document.getElementById('turn-text').innerHTML = ` <span class="thinking">Thinking…</span>`;
-    render(null, true);
     aiTimer = setTimeout(aiPlay, aiDelay);
   }
 }
@@ -708,7 +714,8 @@ document.getElementById('sz').addEventListener('input', function () {
   document.getElementById('szlbl').textContent = `${this.value} × ${this.value}`;
 });
 document.getElementById('aidelay').addEventListener('input', function () {
-  document.getElementById('aiDelayLbl').textContent = (+this.value / 1000).toFixed(1) + 's';
+  const s = +this.value / 1000;
+  document.getElementById('aiDelayLbl').textContent = (s < 0.1 ? s.toFixed(2) : s.toFixed(1)) + 's';
 });
 document.getElementById('ng').addEventListener('click', () => {
   size          = +document.getElementById('sz').value;
