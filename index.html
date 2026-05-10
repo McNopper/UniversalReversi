@@ -802,28 +802,30 @@ function alignPanels() {
     const infoTop = info.getBoundingClientRect().top;
     const leftRows  = info.querySelectorAll('.hp-row');
     const rightRows = ctrl.querySelectorAll('.cg');
-    // reset
-    leftRows.forEach(r => r.style.minHeight = '');
-    rightRows.forEach(r => r.style.minHeight = '');
     if (Math.abs(infoTop - areaTop) < 10) {
-      // Desktop: align side panels with status panel top
       const offset = Math.max(0, sp.getBoundingClientRect().top - areaTop);
       info.style.paddingTop = offset + 'px';
       ctrl.style.paddingTop = offset + 'px';
-      // Pair-align each row: grow the shorter side to match
-      requestAnimationFrame(() => {
-        const n = Math.min(leftRows.length, rightRows.length);
-        for (let i = 0; i < n; i++) {
-          const lh = leftRows[i].getBoundingClientRect().height;
-          const rh = rightRows[i].getBoundingClientRect().height;
-          const m = Math.max(lh, rh);
-          leftRows[i].style.minHeight  = m + 'px';
-          rightRows[i].style.minHeight = m + 'px';
-        }
-      });
+      // Reset, measure, and apply within the same frame to avoid flicker
+      leftRows.forEach(r => r.style.minHeight = '0px');
+      rightRows.forEach(r => r.style.minHeight = '0px');
+      const n = Math.min(leftRows.length, rightRows.length);
+      const heights = [];
+      for (let i = 0; i < n; i++) {
+        heights.push(Math.max(
+          leftRows[i].getBoundingClientRect().height,
+          rightRows[i].getBoundingClientRect().height
+        ));
+      }
+      for (let i = 0; i < n; i++) {
+        leftRows[i].style.minHeight  = heights[i] + 'px';
+        rightRows[i].style.minHeight = heights[i] + 'px';
+      }
     } else {
       info.style.paddingTop = '';
       ctrl.style.paddingTop = '';
+      leftRows.forEach(r => r.style.minHeight = '');
+      rightRows.forEach(r => r.style.minHeight = '');
     }
   });
 }
